@@ -20,7 +20,13 @@ import { useOverview } from '../hooks/queries';
 import { useI18n } from '../i18n/I18nProvider';
 import type { Plan, PlatformOverview } from '../lib/types';
 
-function Kpis({ overview }: { overview: PlatformOverview | undefined }) {
+function Kpis({
+  overview,
+  fetching,
+}: {
+  overview: PlatformOverview | undefined;
+  fetching: boolean;
+}) {
   const { t, fmt } = useI18n();
   if (!overview) {
     return (
@@ -35,6 +41,7 @@ function Kpis({ overview }: { overview: PlatformOverview | undefined }) {
   return (
     <KpiRow>
       <KpiCard
+        fetching={fetching}
         label={t('overview.kpi.tenants')}
         value={fmt.number(totals.tenants)}
         hint={t('overview.kpi.tenantsHint', {
@@ -44,6 +51,7 @@ function Kpis({ overview }: { overview: PlatformOverview | undefined }) {
         icon={<Building2 />}
       />
       <KpiCard
+        fetching={fetching}
         label={t('overview.kpi.newTenants')}
         value={fmt.number(totals.newTenantsThisMonth)}
         icon={<Sparkles />}
@@ -51,6 +59,7 @@ function Kpis({ overview }: { overview: PlatformOverview | undefined }) {
       />
       <Link to="/requests" className="block rounded-2xl transition hover:-translate-y-0.5">
         <KpiCard
+          fetching={fetching}
           label={t('overview.kpi.requests')}
           value={fmt.number(totals.pendingAccessRequests)}
           hint={t('overview.kpi.requestsHint')}
@@ -58,13 +67,20 @@ function Kpis({ overview }: { overview: PlatformOverview | undefined }) {
           tone={totals.pendingAccessRequests > 0 ? 'warning' : 'default'}
         />
       </Link>
-      <KpiCard label={t('overview.kpi.users')} value={fmt.number(totals.users)} icon={<Users />} />
       <KpiCard
+        fetching={fetching}
+        label={t('overview.kpi.users')}
+        value={fmt.number(totals.users)}
+        icon={<Users />}
+      />
+      <KpiCard
+        fetching={fetching}
         label={t('overview.kpi.customers')}
         value={fmt.number(totals.customers)}
         icon={<UserRound />}
       />
       <KpiCard
+        fetching={fetching}
         label={t('overview.kpi.outstanding')}
         value={fmt.money(totals.outstanding)}
         hint={t('overview.kpi.outstandingHint', { count: totals.receivables })}
@@ -72,6 +88,7 @@ function Kpis({ overview }: { overview: PlatformOverview | undefined }) {
         tone="warning"
       />
       <KpiCard
+        fetching={fetching}
         label={t('overview.kpi.collected')}
         value={fmt.money(totals.collectedLast30Days)}
         icon={<HandCoins />}
@@ -91,6 +108,8 @@ export function OverviewPage() {
   const colors = useChartColors();
   const overview = useOverview();
   const data = overview.data;
+  // Background refresh: shown on each metric and chart.
+  const refreshing = overview.isFetching && !overview.isLoading;
 
   // Categorical slots in fixed order (plan identity never depends on its rank).
   const planColors: Record<Plan, string> = {
@@ -124,10 +143,11 @@ export function OverviewPage() {
         </Alert>
       ) : (
         <div className="space-y-4">
-          <Kpis overview={data} />
+          <Kpis overview={data} fetching={refreshing} />
 
           <div className="grid gap-4 xl:grid-cols-3">
             <Card
+              loading={refreshing}
               className="min-w-0 xl:col-span-2"
               title={t('overview.collections.title')}
               subtitle={t('overview.collections.subtitle')}
@@ -146,7 +166,7 @@ export function OverviewPage() {
                 <ChartSkeleton />
               )}
             </Card>
-            <Card className="min-w-0" title={t('overview.plans.title')}>
+            <Card className="min-w-0" title={t('overview.plans.title')} loading={refreshing}>
               {data ? (
                 <DonutChart
                   centerLabel={t('overview.plans.center')}
@@ -166,6 +186,7 @@ export function OverviewPage() {
 
           <div className="grid gap-4 xl:grid-cols-2">
             <Card
+              loading={refreshing}
               className="min-w-0"
               title={t('overview.signups.title')}
               subtitle={t('overview.signups.subtitle')}
@@ -184,6 +205,7 @@ export function OverviewPage() {
               )}
             </Card>
             <Card
+              loading={refreshing}
               className="min-w-0"
               title={t('overview.top.title')}
               subtitle={t('overview.top.subtitle')}

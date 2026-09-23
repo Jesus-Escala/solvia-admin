@@ -1,4 +1,4 @@
-import { ActivityBar, ApiError, FeedbackProvider, ThemeProvider } from '@/ui';
+import { ApiError, FeedbackProvider, ThemeProvider } from '@/ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -30,7 +30,6 @@ createRoot(root).render(
     <ThemeProvider>
       <I18nProvider>
         <QueryClientProvider client={queryClient}>
-          <ActivityBar />
           <BrowserRouter>
             <AuthProvider>
               <FeedbackProvider>

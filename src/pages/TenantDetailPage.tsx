@@ -121,6 +121,7 @@ export function TenantDetailPage() {
   const errors = useErrorText();
   const query = useTenant(id);
   const tenant = query.data;
+  const refreshing = query.isFetching && !query.isLoading;
 
   return (
     <Page>
@@ -157,33 +158,39 @@ export function TenantDetailPage() {
 
           <KpiRow>
             <KpiCard
+              fetching={refreshing}
               label={t('tenant.kpi.outstanding')}
               value={fmt.money(tenant.outstanding)}
               icon={<Wallet />}
             />
             <KpiCard
+              fetching={refreshing}
               label={t('tenant.kpi.overdue')}
               value={fmt.money(tenant.overdue)}
               icon={<TriangleAlert />}
               tone={tenant.overdue > 0 ? 'danger' : 'default'}
             />
             <KpiCard
+              fetching={refreshing}
               label={t('tenant.kpi.collected')}
               value={fmt.money(tenant.collectedLast30Days)}
               icon={<HandCoins />}
               tone="success"
             />
             <KpiCard
+              fetching={refreshing}
               label={t('tenant.kpi.customers')}
               value={fmt.number(tenant.customers)}
               icon={<UserRound />}
             />
             <KpiCard
+              fetching={refreshing}
               label={t('tenant.kpi.receivables')}
               value={fmt.number(tenant.receivables)}
               icon={<FileText />}
             />
             <KpiCard
+              fetching={refreshing}
               label={t('tenant.kpi.lastActivity')}
               value={tenant.lastActivityAt ? fmt.date(tenant.lastActivityAt) : t('common.never')}
               icon={<CalendarClock />}
