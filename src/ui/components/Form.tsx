@@ -129,7 +129,7 @@ export function Tabs<T extends string>({
     <div
       role="tablist"
       aria-label={label}
-      className="flex gap-1 overflow-x-auto border-b border-line"
+      className="flex gap-1 overflow-x-auto overflow-y-hidden border-b border-line [scrollbar-width:none]! [&::-webkit-scrollbar]:hidden"
       {...rest}
     >
       {items.map((item) => {

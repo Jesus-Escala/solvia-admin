@@ -46,6 +46,21 @@ export interface PlatformOverview {
   collections: Array<{ period: string; amount: number }>;
   topTenants: Array<{ id: string; name: string; outstanding: number; customers: number }>;
   generatedAt: string;
+  /** Present when the overview is requested for a period (`from`/`to`). */
+  period?: {
+    from: string;
+    to: string;
+    granularity: 'day' | 'week' | 'month';
+    previous: { from: string; to: string };
+  };
+  periodTotals?: { collected: PeriodMetric; newTenants: PeriodMetric; payments: PeriodMetric };
+  periodSeries?: Array<{ bucket: string; collected: number; newTenants: number }>;
+}
+
+/** Value of a period and of the previous equal-length period (null when not computable). */
+export interface PeriodMetric {
+  value: number | null;
+  previous: number | null;
 }
 
 export interface TenantRow {

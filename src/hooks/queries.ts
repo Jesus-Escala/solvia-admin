@@ -31,10 +31,16 @@ export function useMe() {
   });
 }
 
-export function useOverview() {
+export function useOverview(params: {
+  from: string;
+  to: string;
+  granularity: 'day' | 'week' | 'month';
+}) {
   return useQuery({
-    queryKey: queryKeys.overview,
-    queryFn: () => api.get<PlatformOverview>('/admin/overview'),
+    queryKey: [...queryKeys.overview, params],
+    queryFn: () => api.get<PlatformOverview>('/admin/overview', { ...params }),
+    // Keep the current numbers on screen (with spinners) while another period loads.
+    placeholderData: keepPreviousData,
   });
 }
 

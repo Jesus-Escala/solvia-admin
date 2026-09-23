@@ -3,14 +3,14 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { useI18n } from '../i18n/I18nProvider';
 
 export interface MonthlyPoint {
-  /** `YYYY-MM` */
+  /** `YYYY-MM` (month) or `YYYY-MM-DD` (start of a day/week bucket). */
   period: string;
   value: number;
 }
 
 /**
- * Single-series monthly bar chart (thin bars with rounded tops, recessive grid, hover tooltip).
- * Used for sign-ups (counts) and platform collections (money).
+ * Single-series bar chart per day, week or month (thin bars with rounded tops, recessive grid,
+ * hover tooltip). Used for sign-ups (counts) and platform collections (money).
  */
 export function MonthlyBarChart({
   points,
@@ -18,16 +18,22 @@ export function MonthlyBarChart({
   formatValue,
   formatAxis = formatValue,
   height = 240,
+  granularity = 'month',
 }: {
   points: MonthlyPoint[];
   seriesLabel: string;
   formatValue: (value: number) => string;
   formatAxis?: (value: number) => string;
   height?: number;
+  granularity?: 'day' | 'week' | 'month';
 }) {
   const colors = useChartColors();
   const { fmt } = useI18n();
-  const data = points.map((point) => ({ ...point, label: fmt.shortPeriod(point.period) }));
+  const isMonth = granularity === 'month';
+  const tick = (period: string) =>
+    isMonth ? fmt.shortPeriod(period.slice(0, 7)) : fmt.shortDate(period);
+  const title = (period: string) => (isMonth ? fmt.period(period.slice(0, 7)) : fmt.date(period));
+  const data = points.map((point) => ({ ...point, label: tick(point.period) }));
 
   return (
     <div className="w-full min-w-0" style={{ height }} role="img" aria-label={seriesLabel}>
@@ -40,6 +46,7 @@ export function MonthlyBarChart({
             axisLine={{ stroke: colors.grid }}
             tick={{ ...AXIS_TICK, fill: colors.axis }}
             interval="preserveStartEnd"
+            minTickGap={16}
           />
           <YAxis
             tickLine={false}
@@ -57,7 +64,7 @@ export function MonthlyBarChart({
               if (!active || !point) return null;
               return (
                 <ChartTooltipCard
-                  title={fmt.period(point.period)}
+                  title={<span className="capitalize">{title(point.period)}</span>}
                   rows={[
                     { label: seriesLabel, value: formatValue(point.value), color: colors.series1 },
                   ]}

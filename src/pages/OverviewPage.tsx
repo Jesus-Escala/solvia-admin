@@ -12,13 +12,22 @@ import {
   Skeleton,
   useChartColors,
   useErrorText,
+  useUrlState,
 } from '@/ui';
 import { Building2, HandCoins, Inbox, Sparkles, UserRound, Users, Wallet } from 'lucide-react';
 import { Link } from 'react-router';
 import { MonthlyBarChart } from '../components/MonthlyBarChart';
 import { useOverview } from '../hooks/queries';
 import { useI18n } from '../i18n/I18nProvider';
-import type { Plan, PlatformOverview } from '../lib/types';
+import {
+  allowedGranularities,
+  autoGranularity,
+  isValidRange,
+  presetRange,
+  type Granularity,
+} from '../components/dashboard/period';
+import { PeriodPicker } from '../components/dashboard/PeriodPicker';
+import type { PeriodMetric, Plan, PlatformOverview } from '../lib/types';
 
 function Kpis({
   overview,
@@ -37,7 +46,7 @@ function Kpis({
       </KpiRow>
     );
   }
-  const { totals } = overview;
+  const { totals, periodTotals } = overview;
   return (
     <KpiRow>
       <KpiCard
@@ -52,8 +61,11 @@ function Kpis({
       />
       <KpiCard
         fetching={fetching}
-        label={t('overview.kpi.newTenants')}
-        value={fmt.number(totals.newTenantsThisMonth)}
+        label={t('overview.kpi.newTenantsPeriod')}
+        value={fmt.number(periodTotals?.newTenants.value ?? totals.newTenantsThisMonth)}
+        delta={change(periodTotals?.newTenants)}
+        deltaLabel={t('overview.kpi.vsPrevious')}
+        formatPercent={fmt.percent}
         icon={<Sparkles />}
         tone="success"
       />
@@ -82,15 +94,27 @@ function Kpis({
       <KpiCard
         fetching={fetching}
         label={t('overview.kpi.outstanding')}
-        value={fmt.money(totals.outstanding)}
+        value={tileMoney(fmt, totals.outstanding)}
+        valueTitle={fmt.money(totals.outstanding)}
         hint={t('overview.kpi.outstandingHint', { count: totals.receivables })}
         icon={<Wallet />}
         tone="warning"
       />
       <KpiCard
         fetching={fetching}
-        label={t('overview.kpi.collected')}
-        value={fmt.money(totals.collectedLast30Days)}
+        label={t('overview.kpi.collectedPeriod')}
+        value={tileMoney(fmt, periodTotals?.collected.value ?? totals.collectedLast30Days)}
+        valueTitle={fmt.money(periodTotals?.collected.value ?? totals.collectedLast30Days)}
+        delta={change(periodTotals?.collected)}
+        deltaLabel={t('overview.kpi.vsPrevious')}
+        formatPercent={fmt.percent}
+        hint={
+          periodTotals
+            ? t('overview.kpi.collectedPeriodHint', {
+                count: fmt.number(periodTotals.payments.value ?? 0),
+              })
+            : undefined
+        }
         icon={<HandCoins />}
         tone="success"
       />
@@ -98,15 +122,43 @@ function Kpis({
   );
 }
 
+/** Money for a metric tile: abbreviated from one million up so it never gets cut. */
+function tileMoney(
+  fmt: { money: (v: number) => string; compactMoney: (v: number) => string },
+  value: number,
+) {
+  return Math.abs(value) >= 1_000_000 ? fmt.compactMoney(value) : fmt.money(value);
+}
+
+/** Relative change against the previous period (null when there is nothing to compare). */
+function change(metric: PeriodMetric | undefined): number | null {
+  if (!metric || metric.value === null || metric.previous === null || metric.previous === 0) {
+    return null;
+  }
+  return (metric.value - metric.previous) / Math.abs(metric.previous);
+}
+
 function ChartSkeleton() {
   return <Skeleton className="h-[240px] w-full" />;
 }
+
+const DEFAULT_PERIOD = { from: '', to: '', g: '' };
 
 export function OverviewPage() {
   const { t, fmt } = useI18n();
   const errors = useErrorText();
   const colors = useChartColors();
-  const overview = useOverview();
+  // The period lives in the URL (?from=&to=&g=). Default: the last 12 months.
+  const [periodState, updatePeriod] = useUrlState(DEFAULT_PERIOD);
+  const urlRange = { from: periodState.from, to: periodState.to };
+  const range = isValidRange(urlRange) ? urlRange : presetRange('last12Months');
+  const allowed = allowedGranularities(range);
+  const granularity: Granularity = allowed.includes(periodState.g as Granularity)
+    ? (periodState.g as Granularity)
+    : allowed.includes(autoGranularity(range))
+      ? autoGranularity(range)
+      : allowed[0]!;
+  const overview = useOverview({ ...range, granularity });
   const data = overview.data;
   // Background refresh: shown on each metric and chart.
   const refreshing = overview.isFetching && !overview.isLoading;
@@ -132,6 +184,14 @@ export function OverviewPage() {
         }
       />
 
+      <PeriodPicker
+        range={range}
+        granularity={granularity}
+        onRangeChange={(next) => updatePeriod({ from: next.from, to: next.to, g: '' })}
+        onGranularityChange={(g) => updatePeriod({ g })}
+        previous={data?.period?.previous}
+      />
+
       {overview.error ? (
         <Alert tone="danger">
           <span className="flex flex-wrap items-center justify-between gap-3">
@@ -150,14 +210,20 @@ export function OverviewPage() {
               loading={refreshing}
               className="min-w-0 xl:col-span-2"
               title={t('overview.collections.title')}
-              subtitle={t('overview.collections.subtitle')}
+              subtitle={t('overview.collections.subtitle', {
+                unit: t(`dashboard.period.granularities.${granularity}`).toLowerCase(),
+              })}
             >
               {data ? (
                 <MonthlyBarChart
-                  points={data.collections.map((point) => ({
-                    period: point.period,
-                    value: point.amount,
-                  }))}
+                  granularity={data.periodSeries ? granularity : 'month'}
+                  points={
+                    data.periodSeries?.map((point) => ({
+                      period: point.bucket,
+                      value: point.collected,
+                    })) ??
+                    data.collections.map((point) => ({ period: point.period, value: point.amount }))
+                  }
                   seriesLabel={t('overview.collections.series')}
                   formatValue={fmt.money}
                   formatAxis={fmt.compactMoney}
@@ -189,14 +255,20 @@ export function OverviewPage() {
               loading={refreshing}
               className="min-w-0"
               title={t('overview.signups.title')}
-              subtitle={t('overview.signups.subtitle')}
+              subtitle={t('overview.signups.subtitle', {
+                unit: t(`dashboard.period.granularities.${granularity}`).toLowerCase(),
+              })}
             >
               {data ? (
                 <MonthlyBarChart
-                  points={data.signups.map((point) => ({
-                    period: point.period,
-                    value: point.count,
-                  }))}
+                  granularity={data.periodSeries ? granularity : 'month'}
+                  points={
+                    data.periodSeries?.map((point) => ({
+                      period: point.bucket,
+                      value: point.newTenants,
+                    })) ??
+                    data.signups.map((point) => ({ period: point.period, value: point.count }))
+                  }
                   seriesLabel={t('overview.signups.series')}
                   formatValue={fmt.number}
                 />
