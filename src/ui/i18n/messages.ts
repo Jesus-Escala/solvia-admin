@@ -4,6 +4,9 @@
  */
 
 export const uiEs = {
+  activity: {
+    loading: 'Cargando…',
+  },
   team: {
     title: 'Usuarios',
     new: 'Nuevo usuario',
@@ -189,6 +192,9 @@ export const uiEs = {
 };
 
 export const uiEn: UiMessages = {
+  activity: {
+    loading: 'Loading…',
+  },
   team: {
     title: 'Users',
     new: 'New user',
