@@ -18,7 +18,9 @@ import { PLANS, type AccessRequest, type Plan } from '../lib/types';
 
 /** Plan mentioned in a landing request message ("Plan de interés: Starter"), if any. */
 function planFromMessage(message: string | null): Plan {
-  const match = message?.match(/\b(free|starter|pro)\b/i)?.[1]?.toLowerCase();
+  const match = message
+    ?.match(/(?:plan de inter[eé]s|plan of interest)\s*:\s*(free|starter|pro)\b/i)?.[1]
+    ?.toLowerCase();
   return (PLANS as string[]).includes(match ?? '') ? (match as Plan) : 'free';
 }
 
