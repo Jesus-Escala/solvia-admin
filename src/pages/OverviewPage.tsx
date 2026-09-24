@@ -28,13 +28,7 @@ import {
   type Granularity,
 } from '../components/dashboard/period';
 import { PeriodPicker } from '../components/dashboard/PeriodPicker';
-import {
-  MODULE_PRICES,
-  MODULES,
-  type PeriodMetric,
-  type Plan,
-  type PlatformOverview,
-} from '../lib/types';
+import { MODULES, type PeriodMetric, type Plan, type PlatformOverview } from '../lib/types';
 
 function Kpis({
   overview,
@@ -158,7 +152,6 @@ const DEFAULT_PERIOD = { from: '', to: '', g: '' };
 function ModulesCard({ overview, loading }: { overview: PlatformOverview; loading: boolean }) {
   const { t, fmt } = useI18n();
   const { modules } = overview;
-  const revenue = MODULES.reduce((sum, module) => sum + modules[module] * MODULE_PRICES[module], 0);
   return (
     <Card
       loading={loading}
@@ -192,7 +185,7 @@ function ModulesCard({ overview, loading }: { overview: PlatformOverview; loadin
         />
         <Stat
           label={t('overview.modules.revenue')}
-          value={fmt.money(revenue)}
+          value={fmt.money(overview.estimatedMonthlyRevenue)}
           hint={t('overview.modules.revenueHint')}
         />
       </dl>

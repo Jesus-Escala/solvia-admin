@@ -48,6 +48,8 @@ export interface PlatformOverview {
   };
   /** Active businesses with each module, and without any (to offer them). */
   modules: { sales: number; inventory: number; none: number };
+  /** Monthly revenue at reference prices of the active paying businesses. */
+  estimatedMonthlyRevenue: number;
   /** Always the three plans, 0 when none. */
   tenantsByPlan: Array<{ plan: Plan; count: number }>;
   /** Last 12 months, oldest first, zero-filled. */
@@ -144,4 +146,6 @@ export interface TenantUsage {
   users: { used: number; limit: number | null };
   customers: { used: number; limit: number | null };
   packSize: number;
+  /** What the business pays per month (null on the free plan). */
+  price: { billing: 'monthly' | 'annual'; list: number; discount: number; perMonth: number } | null;
 }

@@ -18,14 +18,16 @@ import { APP_URL } from '../lib/config';
 import { PLANS, type AccessRequest, type Plan, type TenantModule } from '../lib/types';
 import { ModuleSwitches } from './ModuleSwitches';
 
-/** Plan names as the landing writes them ("Plan de interés: Negocio · pago anual · …"). */
+/** Plan names as the landing writes them ("Plan de interés: anual · Cobranza + Ventas · …"). */
 const PLAN_NAMES: Record<string, Plan> = {
   free: 'free',
   gratis: 'free',
   starter: 'starter',
+  mensual: 'starter',
   básico: 'starter',
   basico: 'starter',
   pro: 'pro',
+  anual: 'pro',
   negocio: 'pro',
 };
 

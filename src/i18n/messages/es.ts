@@ -40,8 +40,8 @@ export const es = {
   },
   plans: {
     free: 'Gratis',
-    starter: 'Básico',
-    pro: 'Negocio',
+    starter: 'Pago mensual',
+    pro: 'Pago anual',
   },
   modules: {
     sales: {
@@ -58,6 +58,13 @@ export const es = {
     requested: 'Lo pidió',
   },
   usage: {
+    pays: 'Paga {amount} al mes',
+    billing: {
+      monthly: 'Pago mensual',
+      annual: 'Pago anual (2 meses gratis)',
+    },
+    discount: '{percent} de descuento por módulos',
+    freePlan: 'Plan Gratis: no paga.',
     title: 'Uso del plan',
     month: 'Mes {month}',
     automatic: 'Mensajes automáticos',
@@ -85,8 +92,8 @@ export const es = {
       businesses: 'negocios',
       none: 'Sin módulos',
       noneHint: 'Negocios activos a los que ofrecerlos',
-      revenue: 'Ingreso extra al mes',
-      revenueHint: 'A precio referencial por módulo',
+      revenue: 'Ingreso mensual estimado',
+      revenueHint: 'Negocios activos de pago, a precio referencial',
       offer: '{count|Ofrecer a # negocio|Ofrecer a # negocios}',
     },
     title: 'Resumen de la plataforma',
@@ -229,7 +236,8 @@ export const es = {
     manage: {
       title: 'Plan y estado de la cuenta',
       plan: 'Plan',
-      planHint: 'Cambia el plan contratado por la empresa.',
+      planHint:
+        'Gratis o de pago. El precio sale de los módulos que tenga, con descuento si suma varios.',
       modules: 'Módulos',
       modulesHint:
         'Lo que puede usar este negocio además de la cobranza. El catálogo de productos se activa con cualquiera de los dos.',

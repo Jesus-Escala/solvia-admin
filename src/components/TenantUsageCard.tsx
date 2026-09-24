@@ -65,6 +65,22 @@ export function TenantUsageCard({ tenantId }: { tenantId: string }) {
         <Skeleton className="h-28 rounded-xl" />
       ) : (
         <div className="space-y-4">
+          <p className="rounded-xl bg-surface-2 px-3 py-2.5 text-sm">
+            {data.price ? (
+              <>
+                <span className="font-semibold tabular-nums">
+                  {t('usage.pays', { amount: fmt.money(data.price.perMonth) })}
+                </span>
+                <span className="block text-xs text-muted">
+                  {t(`usage.billing.${data.price.billing}`)}
+                  {data.price.discount > 0 &&
+                    ` · ${t('usage.discount', { percent: fmt.percent(data.price.discount) })}`}
+                </span>
+              </>
+            ) : (
+              <span className="font-semibold">{t('usage.freePlan')}</span>
+            )}
+          </p>
           <Meter
             label={t('usage.automatic')}
             used={data.automaticMessages.used}

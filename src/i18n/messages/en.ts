@@ -38,8 +38,8 @@ export const en: Messages = {
   },
   plans: {
     free: 'Free',
-    starter: 'Basic',
-    pro: 'Business',
+    starter: 'Monthly',
+    pro: 'Yearly',
   },
   modules: {
     sales: {
@@ -55,6 +55,13 @@ export const en: Messages = {
     requested: 'Asked for it',
   },
   usage: {
+    pays: 'Pays {amount} a month',
+    billing: {
+      monthly: 'Billed monthly',
+      annual: 'Billed yearly (2 months free)',
+    },
+    discount: '{percent} module discount',
+    freePlan: 'Free plan: nothing to pay.',
     title: 'Plan usage',
     month: 'Month {month}',
     automatic: 'Automatic messages',
@@ -82,8 +89,8 @@ export const en: Messages = {
       businesses: 'businesses',
       none: 'No modules',
       noneHint: 'Active businesses to offer them to',
-      revenue: 'Extra monthly revenue',
-      revenueHint: 'At the reference price per module',
+      revenue: 'Estimated monthly revenue',
+      revenueHint: 'Active paying businesses, at reference prices',
       offer: '{count|Offer to # business|Offer to # businesses}',
     },
     title: 'Platform overview',
@@ -226,7 +233,8 @@ export const en: Messages = {
     manage: {
       title: 'Administration',
       plan: 'Plan',
-      planHint: "Change the business's subscribed plan.",
+      planHint:
+        'Free or paid. The price comes from its modules, with a discount when it has several.',
       modules: 'Modules',
       modulesHint:
         'What this business can use besides debt collection. The product catalog comes with either one.',
