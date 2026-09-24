@@ -104,3 +104,5 @@ export { useUrlState } from './hooks/useUrlState';
 export { InstallAppChip, PwaInstallGuide, PwaUpdatePrompt } from './pwa/InstallApp';
 export { pwaInstall, useCanOfferInstall, usePwaInstall, type PwaPlatform } from './pwa/pwaInstall';
 export { PaperBackdrop } from './components/PaperBackdrop';
+export { InfoTip } from './components/InfoTip';
+export { downloadCsv } from './lib/csv';
