@@ -15,16 +15,18 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { NewTenantModal } from '../components/NewTenantModal';
-import { PlanBadge, TenantStatusBadge } from '../components/Badges';
+import { ModuleBadges, PlanBadge, TenantStatusBadge } from '../components/Badges';
 import { useTenants } from '../hooks/queries';
 import { useI18n } from '../i18n/I18nProvider';
 import {
+  MODULES,
   PLANS,
   TENANT_STATUSES,
   type Plan,
   type SortDir,
   type TenantRow,
   type TenantSortBy,
+  type TenantModule,
   type TenantStatus,
 } from '../lib/types';
 
@@ -32,6 +34,7 @@ const DEFAULTS = {
   search: '',
   plan: '',
   status: '',
+  module: '',
   page: '1',
   pageSize: '20',
   // Empty = the API's default order, shown as "not sorted" in the headers.
@@ -50,12 +53,13 @@ export function TenantsPage() {
     search: state.search || undefined,
     plan: state.plan as Plan | '',
     status: state.status as TenantStatus | '',
+    module: state.module as TenantModule | 'none' | '',
     page: Number(state.page) || 1,
     pageSize: Number(state.pageSize) || 20,
     sortBy: (state.sortBy || undefined) as TenantSortBy | undefined,
     sortDir: (state.sortDir || undefined) as SortDir | undefined,
   });
-  const filtered = Boolean(state.search || state.plan || state.status);
+  const filtered = Boolean(state.search || state.plan || state.status || state.module);
 
   const columns: Array<DataTableColumn<TenantRow>> = [
     {
@@ -71,6 +75,11 @@ export function TenantsPage() {
           <div className="min-w-0">
             <p className="truncate font-medium">{row.name}</p>
             <p className="truncate text-xs text-subtle">{row.industry ?? t('tenant.noIndustry')}</p>
+            {row.modules.length > 0 && (
+              <div className="mt-1">
+                <ModuleBadges modules={row.modules} />
+              </div>
+            )}
           </div>
         </div>
       ),
@@ -177,6 +186,19 @@ export function TenantsPage() {
                   value: status,
                   label: t(`tenantStatus.${status}`),
                 })),
+              ]}
+            />
+            <SegmentedControl
+              label={t('tenants.filterModule')}
+              value={state.module}
+              onChange={(module) => update({ module })}
+              options={[
+                { value: '', label: t('common.all') },
+                ...MODULES.map((module) => ({
+                  value: module,
+                  label: t(`modules.${module}.title`),
+                })),
+                { value: 'none', label: t('tenants.noModules') },
               ]}
             />
           </>

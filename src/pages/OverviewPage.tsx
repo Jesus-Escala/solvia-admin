@@ -10,6 +10,7 @@ import {
   PageHeader,
   RankingBars,
   Skeleton,
+  Stat,
   useChartColors,
   useErrorText,
   useUrlState,
@@ -27,7 +28,13 @@ import {
   type Granularity,
 } from '../components/dashboard/period';
 import { PeriodPicker } from '../components/dashboard/PeriodPicker';
-import type { PeriodMetric, Plan, PlatformOverview } from '../lib/types';
+import {
+  MODULE_PRICES,
+  MODULES,
+  type PeriodMetric,
+  type Plan,
+  type PlatformOverview,
+} from '../lib/types';
 
 function Kpis({
   overview,
@@ -144,6 +151,55 @@ function ChartSkeleton() {
 
 const DEFAULT_PERIOD = { from: '', to: '', g: '' };
 
+/**
+ * Optional modules: how many active businesses pay for each one, the extra monthly revenue at
+ * reference prices, and how many have none yet (a link to offer them).
+ */
+function ModulesCard({ overview, loading }: { overview: PlatformOverview; loading: boolean }) {
+  const { t, fmt } = useI18n();
+  const { modules } = overview;
+  const revenue = MODULES.reduce((sum, module) => sum + modules[module] * MODULE_PRICES[module], 0);
+  return (
+    <Card
+      loading={loading}
+      title={t('overview.modules.title')}
+      subtitle={t('overview.modules.subtitle')}
+      actions={
+        modules.none > 0 && (
+          <Link
+            to="/tenants?module=none&status=active"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-primary-ink hover:underline"
+          >
+            <Sparkles className="h-4 w-4" />
+            {t('overview.modules.offer', { count: modules.none })}
+          </Link>
+        )
+      }
+    >
+      <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {MODULES.map((module) => (
+          <Stat
+            key={module}
+            label={t(`modules.${module}.title`)}
+            value={fmt.number(modules[module])}
+            hint={t('overview.modules.businesses')}
+          />
+        ))}
+        <Stat
+          label={t('overview.modules.none')}
+          value={fmt.number(modules.none)}
+          hint={t('overview.modules.noneHint')}
+        />
+        <Stat
+          label={t('overview.modules.revenue')}
+          value={fmt.money(revenue)}
+          hint={t('overview.modules.revenueHint')}
+        />
+      </dl>
+    </Card>
+  );
+}
+
 export function OverviewPage() {
   const { t, fmt } = useI18n();
   const errors = useErrorText();
@@ -204,6 +260,8 @@ export function OverviewPage() {
       ) : (
         <div className="space-y-4">
           <Kpis overview={data} fetching={refreshing} />
+
+          {data && <ModulesCard overview={data} loading={refreshing} />}
 
           <div className="grid gap-4 xl:grid-cols-3">
             <Card

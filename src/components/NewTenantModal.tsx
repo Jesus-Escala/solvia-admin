@@ -15,7 +15,8 @@ import { useNavigate } from 'react-router';
 import { useCreateTenant } from '../hooks/queries';
 import { useI18n } from '../i18n/I18nProvider';
 import { APP_URL } from '../lib/config';
-import { PLANS, type AccessRequest, type Plan } from '../lib/types';
+import { PLANS, type AccessRequest, type Plan, type TenantModule } from '../lib/types';
+import { ModuleSwitches } from './ModuleSwitches';
 
 /** Plan mentioned in a landing request message ("Plan de interés: Starter"), if any. */
 function planFromMessage(message: string | null): Plan {
@@ -45,6 +46,7 @@ function NewTenantForm({
   const [name, setName] = useState(request?.businessName ?? '');
   const [industry, setIndustry] = useState(request?.industry ?? '');
   const [plan, setPlan] = useState<Plan>(() => planFromMessage(request?.message ?? null));
+  const [modules, setModules] = useState<TenantModule[]>(request?.modules ?? []);
   const [adminName, setAdminName] = useState(request?.contactName ?? '');
   const [adminEmail, setAdminEmail] = useState(request?.email ?? '');
 
@@ -56,6 +58,7 @@ function NewTenantForm({
         name: name.trim(),
         industry: industry || undefined,
         plan,
+        modules,
         admin,
         accessRequestId: request?.id,
       })
@@ -107,6 +110,21 @@ function NewTenantForm({
             value={plan}
             onChange={setPlan}
             options={PLANS.map((value) => ({ value, label: t(`plans.${value}`) }))}
+          />
+        </div>
+        <div>
+          <p className="label">{t('newTenant.modules')}</p>
+          <p className="mb-2 text-xs text-muted">{t('newTenant.modulesHint')}</p>
+          <ModuleSwitches
+            value={modules}
+            requested={request?.modules ?? []}
+            onToggle={(module) =>
+              setModules((current) =>
+                current.includes(module)
+                  ? current.filter((item) => item !== module)
+                  : [...current, module],
+              )
+            }
           />
         </div>
       </fieldset>

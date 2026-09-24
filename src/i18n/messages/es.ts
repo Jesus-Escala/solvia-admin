@@ -45,13 +45,17 @@ export const es = {
   },
   modules: {
     sales: {
-      title: 'Comercial',
-      description: 'Ventas al contado o fiadas, con sus productos.',
+      title: 'Ventas',
+      description:
+        'Ventas al contado o fiadas con escáner de código de barras, boletas y reportes de ventas.',
     },
     inventory: {
-      title: 'Logística',
-      description: 'Compras a proveedores y control de stock.',
+      title: 'Inventario',
+      description:
+        'Compras a proveedores, stock que se actualiza solo, ajustes y alertas de lo que se acaba.',
     },
+    price: '+{amount} al mes',
+    requested: 'Lo pidió',
   },
   tenantStatus: {
     active: 'Activa',
@@ -62,6 +66,16 @@ export const es = {
     collector: 'Cobrador',
   },
   overview: {
+    modules: {
+      title: 'Módulos adicionales',
+      subtitle: 'Negocios activos que pagan Ventas o Inventario además de su plan.',
+      businesses: 'negocios',
+      none: 'Sin módulos',
+      noneHint: 'Negocios activos a los que ofrecerlos',
+      revenue: 'Ingreso extra al mes',
+      revenueHint: 'A precio referencial por módulo',
+      offer: '{count|Ofrecer a # negocio|Ofrecer a # negocios}',
+    },
     title: 'Resumen de la plataforma',
     subtitle: 'Cómo van todas las empresas que usan Solvia.',
     kpi: {
@@ -103,6 +117,8 @@ export const es = {
     },
   },
   tenants: {
+    filterModule: 'Filtrar por módulo',
+    noModules: 'Sin módulos',
     title: 'Empresas',
     subtitle: 'Los negocios que usan Solvia. Toca uno para ver sus datos, usuarios y plan.',
     search: 'Buscar por empresa o correo…',
@@ -124,6 +140,8 @@ export const es = {
     new: 'Nueva empresa',
   },
   newTenant: {
+    modules: 'Módulos adicionales',
+    modulesHint: 'Se cobran aparte del plan. Los que pidió en la web ya vienen marcados.',
     title: 'Nueva empresa',
     subtitle: 'Se crea el negocio y la cuenta de su dueño.',
     fromRequest: 'Datos tomados de la solicitud de {name}.',
@@ -142,6 +160,7 @@ export const es = {
     created: 'La cuenta de {name} fue creada.',
   },
   requests: {
+    wants: 'Le interesa:',
     title: 'Solicitudes de acceso',
     subtitle:
       'Negocios que dejaron sus datos en la página web. Escríbeles y, si quieren empezar, crea su cuenta.',

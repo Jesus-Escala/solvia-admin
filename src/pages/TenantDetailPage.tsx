@@ -3,7 +3,6 @@ import {
   Avatar,
   Button,
   Card,
-  cx,
   KpiCard,
   KpiRow,
   LoadingState,
@@ -25,11 +24,12 @@ import {
   Wallet,
 } from 'lucide-react';
 import { Link, useParams } from 'react-router';
-import { PlanBadge, TenantStatusBadge } from '../components/Badges';
+import { ModuleBadges, PlanBadge, TenantStatusBadge } from '../components/Badges';
+import { ModuleSwitches } from '../components/ModuleSwitches';
 import { useTenant, useTenantUserActions, useUpdateTenant } from '../hooks/queries';
 import { APP_URL } from '../lib/config';
 import { useI18n } from '../i18n/I18nProvider';
-import { MODULES, PLANS, type Plan, type TenantDetail, type TenantModule } from '../lib/types';
+import { PLANS, type Plan, type TenantDetail, type TenantModule } from '../lib/types';
 
 function Manage({ tenant }: { tenant: TenantDetail }) {
   const { t } = useI18n();
@@ -103,51 +103,11 @@ function Manage({ tenant }: { tenant: TenantDetail }) {
         <div className="border-t border-line pt-4">
           <p className="text-sm font-medium">{t('tenant.manage.modules')}</p>
           <p className="mb-3 text-xs text-muted">{t('tenant.manage.modulesHint')}</p>
-          <ul className="space-y-2">
-            {MODULES.map((module) => {
-              const enabled = tenant.modules.includes(module);
-              return (
-                <li key={module}>
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={enabled}
-                    disabled={update.isPending}
-                    onClick={() => void toggleModule(module)}
-                    className={cx(
-                      'flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition disabled:opacity-60',
-                      enabled
-                        ? 'border-primary/40 bg-primary-soft/50'
-                        : 'border-line bg-surface hover:bg-surface-2',
-                    )}
-                  >
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-sm font-semibold">
-                        {t(`modules.${module}.title`)}
-                      </span>
-                      <span className="block text-xs text-muted">
-                        {t(`modules.${module}.description`)}
-                      </span>
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className={cx(
-                        'relative h-6 w-11 shrink-0 rounded-full transition',
-                        enabled ? 'bg-primary' : 'bg-line-strong',
-                      )}
-                    >
-                      <span
-                        className={cx(
-                          'absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all',
-                          enabled ? 'left-[22px]' : 'left-0.5',
-                        )}
-                      />
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          <ModuleSwitches
+            value={tenant.modules}
+            disabled={update.isPending}
+            onToggle={(module) => void toggleModule(module)}
+          />
         </div>
         <div className="border-t border-line pt-4">
           <p className="text-sm font-medium">{t('tenant.manage.status')}</p>
@@ -211,6 +171,7 @@ export function TenantDetailPage() {
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="truncate text-2xl font-semibold sm:text-[2rem]">{tenant.name}</h1>
                 <PlanBadge plan={tenant.plan} />
+                <ModuleBadges modules={tenant.modules} />
                 <TenantStatusBadge status={tenant.status} />
               </div>
               <p className="mt-0.5 text-sm text-muted">

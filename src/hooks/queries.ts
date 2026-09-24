@@ -49,6 +49,8 @@ export interface TenantListParams {
   search?: string;
   plan?: Plan | '';
   status?: TenantStatus | '';
+  /** A module the business has, or `none`. */
+  module?: TenantModule | 'none' | '';
   page: number;
   pageSize: number;
   /** Omitted: the API's default order (newest first). */

@@ -9,6 +9,13 @@ export type SortDir = 'asc' | 'desc';
 
 export const PLANS: Plan[] = ['free', 'starter', 'pro'];
 export const MODULES: TenantModule[] = ['sales', 'inventory'];
+/**
+ * Reference extra price per month of each module (PEN), the same as the landing page
+ * (solvia-landing `sections/plans.ts`).
+ */
+export const MODULE_PRICES: Record<TenantModule, number> = { sales: 29, inventory: 29 };
+/** Both modules together. */
+export const MODULES_BUNDLE_PRICE = 49;
 export const TENANT_STATUSES: TenantStatus[] = ['active', 'suspended'];
 
 export interface PlatformAdmin {
@@ -41,6 +48,8 @@ export interface PlatformOverview {
     newTenantsThisMonth: number;
     pendingAccessRequests: number;
   };
+  /** Active businesses with each module, and without any (to offer them). */
+  modules: { sales: number; inventory: number; none: number };
   /** Always the three plans, 0 when none. */
   tenantsByPlan: Array<{ plan: Plan; count: number }>;
   /** Last 12 months, oldest first, zero-filled. */
@@ -111,6 +120,8 @@ export interface AccessRequest {
   phone: string;
   industry: string | null;
   message: string | null;
+  /** Modules checked on the landing form. */
+  modules: TenantModule[];
   status: AccessRequestStatus;
   tenantId: string | null;
   createdAt: string;
@@ -120,6 +131,7 @@ export interface NewTenantInput {
   name: string;
   industry?: string;
   plan: Plan;
+  modules: TenantModule[];
   admin: { name: string; email: string };
   accessRequestId?: string;
 }

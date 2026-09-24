@@ -44,12 +44,15 @@ export const en: Messages = {
   modules: {
     sales: {
       title: 'Sales',
-      description: 'Cash or credit sales, with their products.',
+      description: 'Cash or credit sales with barcode scanning, receipts and sales reports.',
     },
     inventory: {
-      title: 'Logistics',
-      description: 'Purchases from suppliers and stock control.',
+      title: 'Inventory',
+      description:
+        'Purchases from suppliers, stock that updates itself, adjustments and low-stock alerts.',
     },
+    price: '+{amount} a month',
+    requested: 'Asked for it',
   },
   tenantStatus: {
     active: 'Active',
@@ -60,6 +63,16 @@ export const en: Messages = {
     collector: 'Collector',
   },
   overview: {
+    modules: {
+      title: 'Add-on modules',
+      subtitle: 'Active businesses paying for Sales or Inventory on top of their plan.',
+      businesses: 'businesses',
+      none: 'No modules',
+      noneHint: 'Active businesses to offer them to',
+      revenue: 'Extra monthly revenue',
+      revenueHint: 'At the reference price per module',
+      offer: '{count|Offer to # business|Offer to # businesses}',
+    },
     title: 'Platform overview',
     subtitle: 'How every business using Solvia is doing.',
     kpi: {
@@ -101,6 +114,8 @@ export const en: Messages = {
     },
   },
   tenants: {
+    filterModule: 'Filter by module',
+    noModules: 'No modules',
     title: 'Businesses',
     subtitle: 'Every business registered in Solvia.',
     search: 'Search by business or email…',
@@ -122,6 +137,8 @@ export const en: Messages = {
     new: 'New business',
   },
   newTenant: {
+    modules: 'Add-on modules',
+    modulesHint: 'Billed on top of the plan. The ones asked for on the website come checked.',
     title: 'New business',
     subtitle: 'Create the business and its first admin user.',
     fromRequest: "Details taken from {name}'s request.",
@@ -140,6 +157,7 @@ export const en: Messages = {
     created: '{name} was created.',
   },
   requests: {
+    wants: 'Interested in:',
     title: 'Access requests',
     subtitle:
       'Businesses that left their details on the website. Message them and, if they want to start, create their account.',

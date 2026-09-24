@@ -37,6 +37,7 @@ import {
   type AccessRequestStatus,
   type SortDir,
 } from '../lib/types';
+import { ModuleBadges } from '../components/Badges';
 
 const DEFAULTS = {
   status: '',
@@ -110,6 +111,12 @@ export function AccessRequestsPage() {
           <div className="min-w-0">
             <p className="truncate font-medium">{row.businessName}</p>
             <p className="truncate text-xs text-subtle">{row.industry ?? t('tenant.noIndustry')}</p>
+            {row.modules.length > 0 && (
+              <div className="mt-1 flex flex-wrap items-center gap-1">
+                <span className="text-[11px] text-muted">{t('requests.wants')}</span>
+                <ModuleBadges modules={row.modules} />
+              </div>
+            )}
           </div>
         </div>
       ),
