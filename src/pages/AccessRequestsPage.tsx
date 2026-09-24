@@ -189,7 +189,14 @@ export function AccessRequestsPage() {
         }
         columns={columns}
         sort={{ id: state.sortBy, dir: state.sortDir as SortDir }}
-        onSortChange={(sort) => update({ sortBy: sort.id, sortDir: sort.dir, page: '1' })}
+        onSortChange={(sort) =>
+          // No sort (third click): back to the page's default order.
+          update({
+            sortBy: sort?.id ?? DEFAULTS.sortBy,
+            sortDir: sort?.dir ?? DEFAULTS.sortDir,
+            page: '1',
+          })
+        }
         rows={query.data?.data}
         rowKey={(row) => row.id}
         loading={query.isLoading}
