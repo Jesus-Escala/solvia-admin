@@ -29,7 +29,7 @@ export function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false);
-  // Soli covers its eyes while the password is typed, and peeks when it is shown.
+  // Bowl covers its eyes while the password is typed, and peeks when it is shown.
   const mood: MascotMood = visible ? 'peek' : focused ? 'cover' : 'default';
   const demo = DEMO_ADMIN;
   const from = (location.state as { from?: string } | null)?.from ?? '/';
@@ -64,7 +64,7 @@ export function LoginPage() {
           <Mascot
             size={84}
             mood={mood}
-            title="Soli"
+            title="Bowl"
             className="absolute -top-[68px] left-1/2 -translate-x-1/2 drop-shadow-md"
           />
           <div className="mb-6 flex flex-col items-center text-center">
