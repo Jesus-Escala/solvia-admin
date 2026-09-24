@@ -42,7 +42,9 @@ export function ModuleSwitches({
                 <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm font-semibold">
                   {t(`modules.${module}.title`)}
                   <span className="text-xs font-medium text-primary-ink">
-                    {t('modules.price', { amount: fmt.money(MODULE_PRICES[module]) })}
+                    {t('modules.price', {
+                      amount: fmt.money(MODULE_PRICES[module]).replace(/[.,]00$/, ''),
+                    })}
                   </span>
                   {requested.includes(module) && (
                     <span className="rounded-full bg-warning-soft px-2 py-0.5 text-[11px] font-semibold text-warning-ink">

@@ -133,3 +133,15 @@ export interface NewTenantInput {
   admin: { name: string; email: string };
   accessRequestId?: string;
 }
+
+/** A tenant's plan allowance and use of the current month (null limit = unlimited). */
+export interface TenantUsage {
+  plan: Plan;
+  modules: TenantModule[];
+  /** YYYY-MM */
+  month: string;
+  automaticMessages: { used: number; included: number; extra: number; limit: number; left: number };
+  users: { used: number; limit: number | null };
+  customers: { used: number; limit: number | null };
+  packSize: number;
+}

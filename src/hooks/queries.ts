@@ -15,6 +15,7 @@ import type {
   TenantSortBy,
   TenantModule,
   TenantStatus,
+  TenantUsage,
 } from '../lib/types';
 
 export const queryKeys = {
@@ -104,6 +105,22 @@ export function useCreateTenant() {
     mutationFn: (input: NewTenantInput) =>
       api.post<{ tenant: TenantDetail; temporaryPassword: string }>('/admin/tenants', input),
     onSuccess: () => invalidate(),
+  });
+}
+
+export function useTenantUsage(id: string) {
+  return useQuery({
+    queryKey: ['admin', 'tenant', id, 'usage'] as const,
+    queryFn: () => api.get<TenantUsage>(`/admin/tenants/${id}/usage`),
+  });
+}
+
+/** Adds one pack of extra automatic WhatsApp messages to the tenant's current month. */
+export function useAddMessagePack(id: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => api.post<TenantUsage>(`/admin/tenants/${id}/message-packs`, { packs: 1 }),
+    onSuccess: (usage) => queryClient.setQueryData(['admin', 'tenant', id, 'usage'], usage),
   });
 }
 

@@ -26,6 +26,7 @@ import {
 import { Link, useParams } from 'react-router';
 import { ModuleBadges, PlanBadge, TenantStatusBadge } from '../components/Badges';
 import { ModuleSwitches } from '../components/ModuleSwitches';
+import { TenantUsageCard } from '../components/TenantUsageCard';
 import { useTenant, useTenantUserActions, useUpdateTenant } from '../hooks/queries';
 import { APP_URL } from '../lib/config';
 import { useI18n } from '../i18n/I18nProvider';
@@ -226,7 +227,10 @@ export function TenantDetailPage() {
             <div className="min-w-0 xl:col-span-2">
               <Users tenant={tenant} />
             </div>
-            <Manage tenant={tenant} />
+            <div className="min-w-0 space-y-4">
+              <Manage tenant={tenant} />
+              <TenantUsageCard tenantId={tenant.id} />
+            </div>
           </div>
         </div>
       )}
