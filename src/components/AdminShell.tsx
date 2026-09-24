@@ -2,6 +2,7 @@ import {
   Avatar,
   Badge,
   cx,
+  IconButton,
   Logo,
   MenuItems,
   Popover,
@@ -18,8 +19,10 @@ import {
   LayoutDashboard,
   LogOut,
   MonitorDown,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from 'lucide-react';
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { NavLink, Outlet } from 'react-router';
 import { useAuth } from '../auth/AuthContext';
 import { useMe } from '../hooks/queries';
@@ -32,32 +35,59 @@ const NAV: Array<{ to: string; label: TranslationKey; icon: ReactNode; end?: boo
   { to: '/requests', label: 'nav.requests', icon: <Inbox /> },
 ];
 
-function Sidebar() {
+const COLLAPSED_KEY = 'solvia.admin.sidebar.collapsed';
+
+function readCollapsed() {
+  try {
+    return localStorage.getItem(COLLAPSED_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+/** Desktop sidebar, collapsible to icons (same behavior as the app). Phones use <BottomNav>. */
+function Sidebar({ collapsed }: { collapsed: boolean }) {
   const { t } = useI18n();
   return (
-    <aside className="hidden w-64 shrink-0 border-r border-line bg-sidebar lg:block">
+    <aside
+      className={cx(
+        'hidden shrink-0 border-r border-line bg-sidebar transition-[width] duration-200 lg:block',
+        collapsed ? 'w-[76px]' : 'w-64',
+      )}
+    >
       <div className="flex h-full flex-col">
-        <div className="flex h-16 shrink-0 items-center gap-2 px-5">
+        <div
+          className={cx(
+            'flex h-16 shrink-0 items-center gap-2',
+            collapsed ? 'justify-center' : 'px-5',
+          )}
+        >
           <NavLink to="/" aria-label="Solvia Admin">
-            <Logo />
+            <Logo collapsed={collapsed} />
           </NavLink>
-          <span className="rounded-md bg-accent-soft px-1.5 py-0.5 text-[10px] font-semibold tracking-wider text-accent-ink uppercase">
-            {t('common.backoffice')}
-          </span>
+          {!collapsed && (
+            <span className="rounded-md bg-accent-soft px-1.5 py-0.5 text-[10px] font-semibold tracking-wider text-accent-ink uppercase">
+              {t('common.backoffice')}
+            </span>
+          )}
         </div>
         <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-2" aria-label={t('nav.section')}>
-          <p className="px-3 pt-2 pb-2 text-[10px] font-semibold tracking-[0.14em] text-sidebar-muted uppercase">
-            {t('nav.section')}
-          </p>
+          {!collapsed && (
+            <p className="px-3 pt-2 pb-2 text-[10px] font-semibold tracking-[0.14em] text-sidebar-muted uppercase">
+              {t('nav.section')}
+            </p>
+          )}
           <ul className="space-y-1">
             {NAV.map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
                   end={item.end}
+                  title={collapsed ? t(item.label) : undefined}
                   className={({ isActive }) =>
                     cx(
-                      'relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200',
+                      'relative flex items-center gap-3 rounded-lg py-2.5 text-sm font-medium transition-all duration-200',
+                      collapsed ? 'justify-center px-0' : 'px-3',
                       isActive
                         ? 'bg-sidebar-active text-sidebar-ink shadow-card ring-1 ring-line'
                         : 'text-sidebar-muted hover:translate-x-0.5 hover:bg-sidebar-active/60 hover:text-sidebar-ink',
@@ -80,7 +110,7 @@ function Sidebar() {
                       >
                         {item.icon}
                       </span>
-                      {t(item.label)}
+                      {!collapsed && t(item.label)}
                     </>
                   )}
                 </NavLink>
@@ -88,24 +118,36 @@ function Sidebar() {
             ))}
           </ul>
         </nav>
-        <div className="shrink-0 border-t border-line px-5 py-4 text-xs text-sidebar-muted">
+        <div
+          className={cx(
+            'shrink-0 border-t border-line py-4 text-xs text-sidebar-muted',
+            collapsed ? 'px-2 text-center' : 'px-5',
+          )}
+        >
           <a
             href={APP_URL}
             target="_blank"
             rel="noreferrer"
+            title={collapsed ? t('nav.openApp') : undefined}
             className="mb-2 inline-flex items-center gap-1.5 font-medium text-sidebar-ink hover:text-primary"
           >
-            {t('nav.openApp')}
+            {!collapsed && t('nav.openApp')}
             <ExternalLink className="h-3.5 w-3.5" />
           </a>
-          <p>{t('nav.footer', { year: new Date().getFullYear() })}</p>
+          <p>{collapsed ? '©' : t('nav.footer', { year: new Date().getFullYear() })}</p>
         </div>
       </div>
     </aside>
   );
 }
 
-function Topbar() {
+function Topbar({
+  collapsed,
+  onToggleCollapsed,
+}: {
+  collapsed: boolean;
+  onToggleCollapsed: () => void;
+}) {
   const { t } = useI18n();
   const { admin, logout } = useAuth();
   const canInstall = useCanOfferInstall();
@@ -115,6 +157,19 @@ function Topbar() {
         <Logo />
         <Badge tone="primary">{t('common.backoffice')}</Badge>
       </div>
+      {/* Wrapped: IconButton's own inline-flex would override a `hidden` class. */}
+      <span className="hidden lg:block">
+        <IconButton
+          label={collapsed ? t('nav.expand') : t('nav.collapse')}
+          onClick={onToggleCollapsed}
+        >
+          {collapsed ? (
+            <PanelLeftOpen className="h-5 w-5" />
+          ) : (
+            <PanelLeftClose className="h-5 w-5" />
+          )}
+        </IconButton>
+      </span>
       <div className="ml-auto flex items-center gap-1">
         <PreferencesControls tourTarget={false} />
         <Popover
@@ -200,6 +255,16 @@ function BottomNav() {
 export function AdminShell() {
   const { logout } = useAuth();
   const me = useMe();
+  const [collapsed, setCollapsed] = useState(readCollapsed);
+  const toggleCollapsed = () =>
+    setCollapsed((value) => {
+      try {
+        localStorage.setItem(COLLAPSED_KEY, value ? '0' : '1');
+      } catch {
+        // Not persisted.
+      }
+      return !value;
+    });
 
   // A token can outlive its admin (e.g. after a data reset): end that session.
   useEffect(() => {
@@ -210,9 +275,9 @@ export function AdminShell() {
 
   return (
     <div className="flex h-dvh overflow-hidden">
-      <Sidebar />
+      <Sidebar collapsed={collapsed} />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar />
+        <Topbar collapsed={collapsed} onToggleCollapsed={toggleCollapsed} />
         <main className="min-h-0 flex-1 overflow-y-auto">
           <Outlet />
         </main>

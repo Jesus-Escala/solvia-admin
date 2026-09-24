@@ -23,6 +23,8 @@ export const es = {
     footer: '© {year} Solvia',
     account: 'Mi cuenta',
     logout: 'Cerrar sesión',
+    collapse: 'Ocultar menú',
+    expand: 'Mostrar menú',
     openApp: 'Abrir la app',
   },
   login: {

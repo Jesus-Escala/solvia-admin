@@ -21,6 +21,8 @@ export const en: Messages = {
     footer: '© {year} Solvia',
     account: 'My account',
     logout: 'Sign out',
+    collapse: 'Collapse menu',
+    expand: 'Expand menu',
     openApp: 'Open the app',
   },
   login: {
