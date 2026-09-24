@@ -68,7 +68,7 @@ export const en: Messages = {
     users: 'users',
     customers: 'customers',
     unlimited: 'Unlimited',
-    manual: 'Unlimited manual WhatsApp in every plan',
+    manual: 'Sending from the business phone is free (no cost)',
     modules: {
       collections: {
         name: 'Collections',

@@ -71,7 +71,7 @@ export const es = {
     users: 'usuarios',
     customers: 'clientes',
     unlimited: 'Ilimitados',
-    manual: 'WhatsApp manual ilimitado en todos los planes',
+    manual: 'Los envíos desde el celular del negocio son gratis (no tienen costo)',
     modules: {
       collections: {
         name: 'Cobranza',
