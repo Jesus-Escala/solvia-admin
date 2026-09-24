@@ -167,6 +167,9 @@ export const uiEs = {
     previous: 'Anterior',
     next: 'Siguiente',
     sortBy: 'Ordenar por {column}',
+    shortcutsBoth: 'Clic derecho: editar · Doble clic: eliminar',
+    shortcutsEdit: 'Clic derecho: editar',
+    shortcutsDelete: 'Doble clic: eliminar',
   },
   prefs: {
     language: 'Idioma',
@@ -398,6 +401,9 @@ export const uiEn: UiMessages = {
     previous: 'Previous',
     next: 'Next',
     sortBy: 'Sort by {column}',
+    shortcutsBoth: 'Right-click: edit · Double-click: delete',
+    shortcutsEdit: 'Right-click: edit',
+    shortcutsDelete: 'Double-click: delete',
   },
   prefs: {
     language: 'Language',
