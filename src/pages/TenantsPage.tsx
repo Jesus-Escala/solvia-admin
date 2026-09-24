@@ -76,12 +76,14 @@ export function TenantsPage() {
     },
     {
       id: 'plan',
+      sortable: true,
       header: t('tenants.columns.plan'),
       mobile: 'subtitle',
       cell: (row) => <PlanBadge plan={row.plan} />,
     },
     {
       id: 'status',
+      sortable: true,
       header: t('tenants.columns.status'),
       mobile: 'aside',
       cell: (row) => <TenantStatusBadge status={row.status} />,
@@ -110,12 +112,14 @@ export function TenantsPage() {
     },
     {
       id: 'collected',
+      sortable: true,
       header: t('tenants.columns.collected'),
       align: 'right',
       cell: (row) => fmt.money(row.collectedLast30Days),
     },
     {
       id: 'lastActivity',
+      sortable: true,
       header: t('tenants.columns.lastActivity'),
       cell: (row) =>
         row.lastActivityAt ? (

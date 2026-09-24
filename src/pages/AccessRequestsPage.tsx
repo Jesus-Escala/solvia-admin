@@ -34,9 +34,26 @@ import {
   ACCESS_REQUEST_STATUSES,
   type AccessRequest,
   type AccessRequestStatus,
+  type SortDir,
 } from '../lib/types';
 
-const DEFAULTS = { status: 'pending', search: '', page: '1', pageSize: '20' };
+const DEFAULTS = {
+  status: 'pending',
+  search: '',
+  page: '1',
+  pageSize: '20',
+  sortBy: 'createdAt',
+  sortDir: 'desc',
+};
+
+/** Table column id → API sort field. */
+const SORT_FIELDS = {
+  business: 'businessName',
+  contact: 'contactName',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt',
+} as const;
 
 const STATUS_TONES: Record<AccessRequestStatus, BadgeTone> = {
   pending: 'warning',
@@ -64,6 +81,8 @@ export function AccessRequestsPage() {
     search: state.search || undefined,
     page: Number(state.page) || 1,
     pageSize: Number(state.pageSize) || 20,
+    sortBy: SORT_FIELDS[state.sortBy as keyof typeof SORT_FIELDS] ?? 'createdAt',
+    sortDir: state.sortDir as SortDir,
   });
 
   const setStatus = async (row: AccessRequest, status: 'pending' | 'dismissed') => {
@@ -78,6 +97,7 @@ export function AccessRequestsPage() {
   const columns: Array<DataTableColumn<AccessRequest>> = [
     {
       id: 'business',
+      sortable: true,
       header: t('requests.columns.business'),
       hideable: false,
       minWidth: 220,
@@ -94,6 +114,7 @@ export function AccessRequestsPage() {
     },
     {
       id: 'contact',
+      sortable: true,
       header: t('requests.columns.contact'),
       minWidth: 220,
       mobile: 'subtitle',
@@ -108,6 +129,7 @@ export function AccessRequestsPage() {
     },
     {
       id: 'message',
+      sortable: true,
       header: t('requests.columns.message'),
       minWidth: 260,
       cell: (row) =>
@@ -121,6 +143,7 @@ export function AccessRequestsPage() {
     },
     {
       id: 'status',
+      sortable: true,
       header: t('requests.columns.status'),
       mobile: 'aside',
       cell: (row) => (
@@ -131,6 +154,7 @@ export function AccessRequestsPage() {
     },
     {
       id: 'createdAt',
+      sortable: true,
       header: t('requests.columns.createdAt'),
       cell: (row) => fmt.dateTime(row.createdAt),
     },
@@ -164,6 +188,8 @@ export function AccessRequestsPage() {
           </>
         }
         columns={columns}
+        sort={{ id: state.sortBy, dir: state.sortDir as SortDir }}
+        onSortChange={(sort) => update({ sortBy: sort.id, sortDir: sort.dir, page: '1' })}
         rows={query.data?.data}
         rowKey={(row) => row.id}
         loading={query.isLoading}

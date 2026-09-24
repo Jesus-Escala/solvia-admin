@@ -78,7 +78,16 @@ export interface TenantRow {
   lastActivityAt: string | null;
 }
 
-export type TenantSortBy = 'name' | 'createdAt' | 'outstanding' | 'customers' | 'users';
+export type TenantSortBy =
+  | 'name'
+  | 'plan'
+  | 'status'
+  | 'createdAt'
+  | 'outstanding'
+  | 'collected'
+  | 'lastActivity'
+  | 'customers'
+  | 'users';
 
 /** Detail of one business: the list row plus overdue amount and its users (instead of a count). */
 export interface TenantDetail extends Omit<TenantRow, 'users'> {

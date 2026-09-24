@@ -132,6 +132,8 @@ export function useTenantUserActions(tenantId: string) {
 export interface AccessRequestParams {
   status?: AccessRequestStatus | '';
   search?: string;
+  sortBy?: 'businessName' | 'contactName' | 'message' | 'status' | 'createdAt';
+  sortDir?: SortDir;
   page: number;
   pageSize: number;
 }
