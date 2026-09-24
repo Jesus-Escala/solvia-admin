@@ -6,7 +6,7 @@ export const en: Messages = {
   ...uiEn,
   common: {
     appName: 'Solvia Admin',
-    backoffice: 'Backoffice',
+    backoffice: 'Internal panel',
     loading: 'Loading...',
     retry: 'Retry',
     all: 'All',
@@ -38,8 +38,8 @@ export const en: Messages = {
   },
   plans: {
     free: 'Free',
-    starter: 'Starter',
-    pro: 'Pro',
+    starter: 'Basic',
+    pro: 'Business',
   },
   tenantStatus: {
     active: 'Active',
@@ -57,9 +57,9 @@ export const en: Messages = {
       tenantsHint: '{active} active · {suspended} suspended',
       newTenants: 'New this month',
       users: 'Users',
-      customers: 'End customers',
+      customers: 'Businesses’ customers',
       outstanding: 'Outstanding portfolio',
-      outstandingHint: '{count|# receivable|# receivables}',
+      outstandingHint: '{count|# recorded debt|# recorded debts}',
       collected: 'Collected (30 days)',
       collectedPeriod: 'Collected in the period',
       collectedPeriodHint: '{count|# payment|# payments} recorded',
@@ -123,19 +123,21 @@ export const en: Messages = {
     admin: 'Business admin',
     adminName: 'Name',
     adminEmail: 'Email',
-    adminHint: 'They will get a temporary password to change at first sign-in.',
+    adminHint:
+      'When you finish we will show a temporary password ONLY once: send it on WhatsApp before closing. They change it on first sign-in.',
     create: 'Create business',
     cancel: 'Cancel',
     created: '{name} was created.',
   },
   requests: {
     title: 'Access requests',
-    subtitle: 'People who asked to use Solvia from the landing page.',
+    subtitle:
+      'Businesses that left their details on the website. Message them and, if they want to start, create their account.',
     search: 'Search by business, name or email…',
     filterStatus: 'Filter by status',
     status: {
       pending: 'Pending',
-      converted: 'Converted',
+      converted: 'Account created',
       dismissed: 'Dismissed',
     },
     columns: {
@@ -145,8 +147,8 @@ export const en: Messages = {
       status: 'Status',
       createdAt: 'Received',
     },
-    convert: 'Create business',
-    dismiss: 'Dismiss',
+    convert: 'Create account',
+    dismiss: 'Dismiss (can be undone)',
     restore: 'Back to pending',
     openTenant: 'View business',
     whatsapp: 'Message on WhatsApp',
@@ -178,7 +180,7 @@ export const en: Messages = {
       signIn: 'Sign-in',
       google: 'Google',
       password: 'Password',
-      empty: 'This business has no users.',
+      empty: 'This business has no users yet. Create one with “New user”.',
     },
     manage: {
       title: 'Administration',

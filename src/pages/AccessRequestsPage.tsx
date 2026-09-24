@@ -2,6 +2,7 @@ import {
   Alert,
   Avatar,
   Badge,
+  Button,
   DataTable,
   IconButton,
   MenuItems,
@@ -210,56 +211,68 @@ export function AccessRequestsPage() {
               : t('requests.empty'),
         }}
         rowActions={(row) => (
-          <Popover
-            trigger={({ toggle, ref }) => (
-              <IconButton ref={ref} size="sm" label={t('requests.actions')} onClick={toggle}>
-                <MoreHorizontal className="h-4 w-4" />
-              </IconButton>
+          <>
+            {row.status === 'pending' && (
+              <Button
+                size="sm"
+                variant="soft"
+                icon={<Building2 className="h-3.5 w-3.5" />}
+                onClick={() => setConverting(row)}
+              >
+                {t('requests.convert')}
+              </Button>
             )}
-          >
-            {(close) => (
-              <MenuItems
-                close={close}
-                items={[
-                  {
-                    label: t('requests.convert'),
-                    icon: <Building2 />,
-                    onSelect: () => setConverting(row),
-                    hidden: row.status === 'converted',
-                  },
-                  {
-                    label: t('requests.openTenant'),
-                    icon: <SquareArrowOutUpRight />,
-                    onSelect: () => navigate(`/tenants/${row.tenantId}`),
-                    hidden: !row.tenantId,
-                  },
-                  {
-                    label: t('requests.whatsapp'),
-                    icon: <MessageCircle />,
-                    onSelect: () => window.open(whatsappUrl(row.phone), '_blank', 'noopener'),
-                  },
-                  {
-                    label: t('requests.email'),
-                    icon: <Mail />,
-                    onSelect: () => window.open(`mailto:${row.email}`, '_self'),
-                  },
-                  {
-                    label: t('requests.dismiss'),
-                    icon: <XCircle />,
-                    onSelect: () => void setStatus(row, 'dismissed'),
-                    hidden: row.status !== 'pending',
-                    danger: true,
-                  },
-                  {
-                    label: t('requests.restore'),
-                    icon: <RotateCcw />,
-                    onSelect: () => void setStatus(row, 'pending'),
-                    hidden: row.status !== 'dismissed',
-                  },
-                ]}
-              />
-            )}
-          </Popover>
+            <Popover
+              trigger={({ toggle, ref }) => (
+                <IconButton ref={ref} size="sm" label={t('requests.actions')} onClick={toggle}>
+                  <MoreHorizontal className="h-4 w-4" />
+                </IconButton>
+              )}
+            >
+              {(close) => (
+                <MenuItems
+                  close={close}
+                  items={[
+                    {
+                      label: t('requests.convert'),
+                      icon: <Building2 />,
+                      onSelect: () => setConverting(row),
+                      hidden: row.status !== 'dismissed',
+                    },
+                    {
+                      label: t('requests.openTenant'),
+                      icon: <SquareArrowOutUpRight />,
+                      onSelect: () => navigate(`/tenants/${row.tenantId}`),
+                      hidden: !row.tenantId,
+                    },
+                    {
+                      label: t('requests.whatsapp'),
+                      icon: <MessageCircle />,
+                      onSelect: () => window.open(whatsappUrl(row.phone), '_blank', 'noopener'),
+                    },
+                    {
+                      label: t('requests.email'),
+                      icon: <Mail />,
+                      onSelect: () => window.open(`mailto:${row.email}`, '_self'),
+                    },
+                    {
+                      label: t('requests.dismiss'),
+                      icon: <XCircle />,
+                      onSelect: () => void setStatus(row, 'dismissed'),
+                      hidden: row.status !== 'pending',
+                      danger: true,
+                    },
+                    {
+                      label: t('requests.restore'),
+                      icon: <RotateCcw />,
+                      onSelect: () => void setStatus(row, 'pending'),
+                      hidden: row.status !== 'dismissed',
+                    },
+                  ]}
+                />
+              )}
+            </Popover>
+          </>
         )}
         pagination={
           query.data && {
