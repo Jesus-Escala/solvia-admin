@@ -39,6 +39,10 @@ login: `admin@solvia.app` / `Password123!`.
 - UI text through i18n (`src/i18n/messages/es.ts` source of truth, `en.ts` mirrors it).
 - Semantic color tokens only; tables with `<Page fill>` + `<DataTable>`; `<Modal>` for dialogs;
   `useFeedback()` for toasts/confirmations (destructive actions always confirm).
+  Errors from forms/actions are **toasts, not inline alerts**: `useErrorToast(mutation.error)` in the
+  form, or `toast.apiError(err)` in a catch. `toast.success/error/info/warning(title, description?)`,
+  `toast.loading()` + `toast.update(id, …)`. Field errors still render under each input; inline
+  `<Alert>` is only for persistent states (a list that failed to load, informational notes).
 - Backend contract changes → update `src/lib/types.ts` and hooks; new error codes → texts in
   `src/ui/i18n/messages.ts`.
 - Before committing: `npm run lint && npm run build`, and check it in the browser.

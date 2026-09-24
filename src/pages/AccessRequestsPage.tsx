@@ -71,7 +71,7 @@ export function AccessRequestsPage() {
       await changeStatus.mutateAsync({ id: row.id, status });
       toast.success(t(status === 'dismissed' ? 'requests.dismissed' : 'requests.restored'));
     } catch (error) {
-      toast.error(errors.message(error));
+      toast.apiError(error);
     }
   };
 

@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   InstallAppChip,
   Field,
@@ -7,8 +6,8 @@ import {
   Mascot,
   PasswordInput,
   PreferencesControls,
-  useErrorText,
   type MascotMood,
+  useErrorToast,
 } from '@/ui';
 import { ShieldCheck } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
@@ -19,13 +18,13 @@ import { DEMO_ADMIN } from '../lib/config';
 
 export function LoginPage() {
   const { t } = useI18n();
-  const errors = useErrorText();
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [secret, setSecret] = useState('');
   const [error, setError] = useState<unknown>(null);
+  useErrorToast(error, t('toast.signInFailed'));
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -80,7 +79,6 @@ export function LoginPage() {
           </div>
 
           <form onSubmit={(event) => void submit(event)} className="space-y-3.5">
-            {error !== null && <Alert tone="danger">{errors.message(error)}</Alert>}
             <Field label={t('login.email')}>
               {(id) => (
                 <input

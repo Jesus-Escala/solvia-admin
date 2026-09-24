@@ -8,6 +8,7 @@ import {
   TemporaryPasswordDialog,
   useErrorText,
   useFeedback,
+  useErrorToast,
 } from '@/ui';
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router';
@@ -69,13 +70,12 @@ function NewTenantForm({
   };
 
   const error = create.error;
+  useErrorToast(error);
+
   return (
     <form onSubmit={(event) => void submit(event)} className="space-y-4">
       {request && (
         <Alert tone="info">{t('newTenant.fromRequest', { name: request.contactName })}</Alert>
-      )}
-      {error && !errors.hasFieldErrors(error) && (
-        <Alert tone="danger">{errors.message(error)}</Alert>
       )}
 
       <fieldset className="space-y-3">

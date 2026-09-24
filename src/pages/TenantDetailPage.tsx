@@ -32,7 +32,6 @@ import { PLANS, type Plan, type TenantDetail } from '../lib/types';
 
 function Manage({ tenant }: { tenant: TenantDetail }) {
   const { t } = useI18n();
-  const errors = useErrorText();
   const { toast, confirm } = useFeedback();
   const update = useUpdateTenant(tenant.id);
   const suspended = tenant.status === 'suspended';
@@ -43,7 +42,7 @@ function Manage({ tenant }: { tenant: TenantDetail }) {
       await update.mutateAsync({ plan });
       toast.success(t('tenant.manage.planChanged', { plan: t(`plans.${plan}`) }));
     } catch (error) {
-      toast.error(errors.message(error));
+      toast.apiError(error);
     }
   };
 
@@ -66,7 +65,7 @@ function Manage({ tenant }: { tenant: TenantDetail }) {
         }),
       );
     } catch (error) {
-      toast.error(errors.message(error));
+      toast.apiError(error);
     }
   };
 
