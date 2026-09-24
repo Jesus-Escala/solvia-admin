@@ -43,6 +43,9 @@ login: `admin@solvia.app` / `Password123!`.
   form, or `toast.apiError(err)` in a catch. `toast.success/error/info/warning(title, description?)`,
   `toast.loading()` + `toast.update(id, …)`. Field errors still render under each input; inline
   `<Alert>` is only for persistent states (a list that failed to load, informational notes).
+  Toasts carry a _kind_ label so users can tell origins apart: `validation` (interface rules —
+  native `required`/`min`/`max` are intercepted globally and toasted), `service` (4xx from the API),
+  `network`, `access` (401/403) and `system` (5xx or unexpected). `toast.apiError` classifies for you.
 - Backend contract changes → update `src/lib/types.ts` and hooks; new error codes → texts in
   `src/ui/i18n/messages.ts`.
 - Before committing: `npm run lint && npm run build`, and check it in the browser.
