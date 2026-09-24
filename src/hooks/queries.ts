@@ -13,6 +13,7 @@ import type {
   TenantDetail,
   TenantRow,
   TenantSortBy,
+  TenantModule,
   TenantStatus,
 } from '../lib/types';
 
@@ -73,7 +74,7 @@ export function useTenant(id: string) {
 export function useUpdateTenant(id: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (changes: { plan?: Plan; status?: TenantStatus }) =>
+    mutationFn: (changes: { plan?: Plan; status?: TenantStatus; modules?: TenantModule[] }) =>
       api.patch<TenantDetail>(`/admin/tenants/${id}`, changes),
     onSuccess: (detail) => {
       queryClient.setQueryData(queryKeys.tenant(id), detail);

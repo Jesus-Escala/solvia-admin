@@ -3,9 +3,12 @@ import type { TeamUser } from '@/ui';
 
 export type Plan = 'free' | 'starter' | 'pro';
 export type TenantStatus = 'active' | 'suspended';
+/** Optional modules of a business (the product catalog comes with any of them). */
+export type TenantModule = 'sales' | 'inventory';
 export type SortDir = 'asc' | 'desc';
 
 export const PLANS: Plan[] = ['free', 'starter', 'pro'];
+export const MODULES: TenantModule[] = ['sales', 'inventory'];
 export const TENANT_STATUSES: TenantStatus[] = ['active', 'suspended'];
 
 export interface PlatformAdmin {
@@ -69,6 +72,7 @@ export interface TenantRow {
   industry: string | null;
   plan: Plan;
   status: TenantStatus;
+  modules: TenantModule[];
   createdAt: string;
   users: number;
   customers: number;

@@ -41,6 +41,16 @@ export const en: Messages = {
     starter: 'Basic',
     pro: 'Business',
   },
+  modules: {
+    sales: {
+      title: 'Sales',
+      description: 'Cash or credit sales, with their products.',
+    },
+    inventory: {
+      title: 'Logistics',
+      description: 'Purchases from suppliers and stock control.',
+    },
+  },
   tenantStatus: {
     active: 'Active',
     suspended: 'Suspended',
@@ -186,6 +196,11 @@ export const en: Messages = {
       title: 'Administration',
       plan: 'Plan',
       planHint: "Change the business's subscribed plan.",
+      modules: 'Modules',
+      modulesHint:
+        'What this business can use besides debt collection. The product catalog comes with either one.',
+      moduleOn: '{module} enabled.',
+      moduleOff: '{module} disabled.',
       status: 'Account status',
       suspendHint: 'A suspended business cannot sign in or send reminders until you reactivate it.',
       suspend: 'Suspend business',

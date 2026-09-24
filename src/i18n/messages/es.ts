@@ -43,6 +43,16 @@ export const es = {
     starter: 'Básico',
     pro: 'Negocio',
   },
+  modules: {
+    sales: {
+      title: 'Comercial',
+      description: 'Ventas al contado o fiadas, con sus productos.',
+    },
+    inventory: {
+      title: 'Logística',
+      description: 'Compras a proveedores y control de stock.',
+    },
+  },
   tenantStatus: {
     active: 'Activa',
     suspended: 'Suspendida',
@@ -188,6 +198,11 @@ export const es = {
       title: 'Plan y estado de la cuenta',
       plan: 'Plan',
       planHint: 'Cambia el plan contratado por la empresa.',
+      modules: 'Módulos',
+      modulesHint:
+        'Lo que puede usar este negocio además de la cobranza. El catálogo de productos se activa con cualquiera de los dos.',
+      moduleOn: '{module} activado.',
+      moduleOff: '{module} desactivado.',
       status: 'Estado de la cuenta',
       suspendHint:
         'Una empresa suspendida no puede iniciar sesión ni envía recordatorios hasta que la reactives.',
