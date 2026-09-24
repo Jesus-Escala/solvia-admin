@@ -39,7 +39,7 @@ import {
 } from '../lib/types';
 
 const DEFAULTS = {
-  status: 'pending',
+  status: '',
   search: '',
   page: '1',
   pageSize: '20',
@@ -180,11 +180,11 @@ export function AccessRequestsPage() {
               value={state.status}
               onChange={(status) => update({ status })}
               options={[
+                { value: '', label: t('common.all') },
                 ...ACCESS_REQUEST_STATUSES.map((status) => ({
                   value: status,
                   label: t(`requests.status.${status}`),
                 })),
-                { value: '', label: t('common.all') },
               ]}
             />
           </>
