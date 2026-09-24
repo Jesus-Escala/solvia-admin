@@ -8,6 +8,7 @@ import {
   PreferencesControls,
   type MascotMood,
   useErrorToast,
+  PaperBackdrop,
 } from '@/ui';
 import { ShieldCheck } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
@@ -51,10 +52,7 @@ export function LoginPage() {
 
   return (
     <div className="relative flex min-h-dvh flex-col overflow-hidden bg-canvas">
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="auth-blob absolute -top-40 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-[#2a78d6]/20 blur-3xl dark:bg-[#2a78d6]/15" />
-        <div className="auth-blob absolute -right-32 -bottom-40 h-[28rem] w-[28rem] rounded-full bg-[#2dd4bf]/25 blur-3xl [animation-delay:-8s] dark:bg-[#0f766e]/25" />
-      </div>
+      <PaperBackdrop />
 
       <header className="relative z-10 flex items-center justify-between px-4 py-3 sm:px-8">
         <Logo />
@@ -74,7 +72,7 @@ export function LoginPage() {
               <ShieldCheck className="h-3.5 w-3.5" />
               {t('login.restricted')}
             </span>
-            <h1 className="text-xl font-semibold tracking-tight">{t('login.title')}</h1>
+            <h1 className="text-[1.7rem] leading-tight font-semibold">{t('login.title')}</h1>
             <p className="mt-1 text-sm text-muted">{t('login.subtitle')}</p>
           </div>
 

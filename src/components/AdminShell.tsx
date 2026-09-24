@@ -35,18 +35,18 @@ const NAV: Array<{ to: string; label: TranslationKey; icon: ReactNode; end?: boo
 function Sidebar() {
   const { t } = useI18n();
   return (
-    <aside className="hidden w-64 shrink-0 bg-[linear-gradient(165deg,#0b1118_0%,#111c2b_58%,#0d2230_100%)] shadow-[4px_0_24px_rgb(0_0_0/0.18),inset_-1px_0_0_rgb(255_255_255/0.05)] lg:block">
+    <aside className="hidden w-64 shrink-0 border-r border-line bg-sidebar lg:block">
       <div className="flex h-full flex-col">
         <div className="flex h-16 shrink-0 items-center gap-2 px-5">
           <NavLink to="/" aria-label="Solvia Admin">
-            <Logo tone="light" />
+            <Logo />
           </NavLink>
-          <span className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] font-semibold tracking-wider text-[#5fd3c5] uppercase">
+          <span className="rounded-md bg-accent-soft px-1.5 py-0.5 text-[10px] font-semibold tracking-wider text-accent-ink uppercase">
             {t('common.backoffice')}
           </span>
         </div>
         <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-2" aria-label={t('nav.section')}>
-          <p className="px-3 pt-2 pb-2 text-[10px] font-semibold tracking-[0.12em] text-white/35 uppercase">
+          <p className="px-3 pt-2 pb-2 text-[10px] font-semibold tracking-[0.14em] text-sidebar-muted uppercase">
             {t('nav.section')}
           </p>
           <ul className="space-y-1">
@@ -59,8 +59,8 @@ function Sidebar() {
                     cx(
                       'relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200',
                       isActive
-                        ? 'bg-gradient-to-r from-white/[0.14] to-white/[0.04] text-white'
-                        : 'text-[#aeb9c6] hover:translate-x-0.5 hover:bg-white/[0.08] hover:text-white',
+                        ? 'bg-sidebar-active text-sidebar-ink shadow-card ring-1 ring-line'
+                        : 'text-sidebar-muted hover:translate-x-0.5 hover:bg-sidebar-active/60 hover:text-sidebar-ink',
                     )
                   }
                 >
@@ -68,14 +68,14 @@ function Sidebar() {
                     <>
                       {isActive && (
                         <span
-                          className="absolute top-2 bottom-2 left-0 w-[3px] rounded-r-full bg-[#2bb3a3]"
+                          className="absolute top-2 bottom-2 left-0 w-[3px] rounded-r-full bg-primary"
                           aria-hidden="true"
                         />
                       )}
                       <span
                         className={cx(
                           '[&>svg]:h-[18px] [&>svg]:w-[18px]',
-                          isActive && 'text-[#5fd3c5]',
+                          isActive && 'text-primary',
                         )}
                       >
                         {item.icon}
@@ -88,12 +88,12 @@ function Sidebar() {
             ))}
           </ul>
         </nav>
-        <div className="shrink-0 border-t border-white/[0.07] px-5 py-4 text-xs text-white/40">
+        <div className="shrink-0 border-t border-line px-5 py-4 text-xs text-sidebar-muted">
           <a
             href={APP_URL}
             target="_blank"
             rel="noreferrer"
-            className="mb-2 inline-flex items-center gap-1.5 font-medium text-white/70 hover:text-white"
+            className="mb-2 inline-flex items-center gap-1.5 font-medium text-sidebar-ink hover:text-primary"
           >
             {t('nav.openApp')}
             <ExternalLink className="h-3.5 w-3.5" />

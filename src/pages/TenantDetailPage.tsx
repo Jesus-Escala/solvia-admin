@@ -142,9 +142,7 @@ export function TenantDetailPage() {
             <Avatar name={tenant.name} size="lg" />
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="truncate text-xl font-semibold tracking-tight sm:text-2xl">
-                  {tenant.name}
-                </h1>
+                <h1 className="truncate text-2xl font-semibold sm:text-[2rem]">{tenant.name}</h1>
                 <PlanBadge plan={tenant.plan} />
                 <TenantStatusBadge status={tenant.status} />
               </div>
