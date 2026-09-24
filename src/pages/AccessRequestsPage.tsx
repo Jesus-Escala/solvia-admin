@@ -16,11 +16,11 @@ import {
   useUrlState,
   type BadgeTone,
   type DataTableColumn,
+  WhatsAppIcon,
 } from '@/ui';
 import {
   Building2,
   Mail,
-  MessageCircle,
   MoreHorizontal,
   RotateCcw,
   SquareArrowOutUpRight,
@@ -254,7 +254,7 @@ export function AccessRequestsPage() {
                     },
                     {
                       label: t('requests.whatsapp'),
-                      icon: <MessageCircle />,
+                      icon: <WhatsAppIcon />,
                       onSelect: () => window.open(whatsappUrl(row.phone), '_blank', 'noopener'),
                     },
                     {
