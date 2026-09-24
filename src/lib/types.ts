@@ -9,11 +9,6 @@ export type SortDir = 'asc' | 'desc';
 
 export const PLANS: Plan[] = ['free', 'starter', 'pro'];
 export const MODULES: TenantModule[] = ['sales', 'inventory'];
-/**
- * Reference extra price per month of each module (PEN), the same as the landing page
- * (solvia-landing `sections/plans.ts`).
- */
-export const MODULE_PRICES: Record<TenantModule, number> = { sales: 29, inventory: 29 };
 export const TENANT_STATUSES: TenantStatus[] = ['active', 'suspended'];
 
 export interface PlatformAdmin {

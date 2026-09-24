@@ -7,7 +7,6 @@ import {
   KpiRow,
   LoadingState,
   Page,
-  SegmentedControl,
   TeamUsers,
   useErrorText,
   useFeedback,
@@ -25,12 +24,12 @@ import {
 } from 'lucide-react';
 import { Link, useParams } from 'react-router';
 import { ModuleBadges, PlanBadge, TenantStatusBadge } from '../components/Badges';
-import { ModuleSwitches } from '../components/ModuleSwitches';
+import { PlanBuilder } from '../components/PlanBuilder';
 import { TenantUsageCard } from '../components/TenantUsageCard';
 import { useTenant, useTenantUserActions, useUpdateTenant } from '../hooks/queries';
 import { APP_URL } from '../lib/config';
 import { useI18n } from '../i18n/I18nProvider';
-import { PLANS, type Plan, type TenantDetail, type TenantModule } from '../lib/types';
+import type { Plan, TenantDetail, TenantModule } from '../lib/types';
 
 function Manage({ tenant }: { tenant: TenantDetail }) {
   const { t } = useI18n();
@@ -92,22 +91,13 @@ function Manage({ tenant }: { tenant: TenantDetail }) {
     <Card title={t('tenant.manage.title')} className="min-w-0">
       <div className="space-y-5">
         <div>
-          <p className="text-sm font-medium">{t('tenant.manage.plan')}</p>
-          <p className="mb-2 text-xs text-muted">{t('tenant.manage.planHint')}</p>
-          <SegmentedControl
-            label={t('tenant.manage.plan')}
-            value={tenant.plan}
-            onChange={(plan) => void changePlan(plan)}
-            options={PLANS.map((plan) => ({ value: plan, label: t(`plans.${plan}`) }))}
-          />
-        </div>
-        <div className="border-t border-line pt-4">
-          <p className="text-sm font-medium">{t('tenant.manage.modules')}</p>
-          <p className="mb-3 text-xs text-muted">{t('tenant.manage.modulesHint')}</p>
-          <ModuleSwitches
-            value={tenant.modules}
+          <p className="mb-3 text-xs text-muted">{t('tenant.manage.planHint')}</p>
+          <PlanBuilder
+            plan={tenant.plan}
+            modules={tenant.modules}
             disabled={update.isPending}
-            onToggle={(module) => void toggleModule(module)}
+            onPlanChange={(plan) => void changePlan(plan)}
+            onToggleModule={(module) => void toggleModule(module)}
           />
         </div>
         <div className="border-t border-line pt-4">

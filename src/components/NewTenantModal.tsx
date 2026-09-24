@@ -4,7 +4,6 @@ import {
   Field,
   IndustrySelect,
   Modal,
-  SegmentedControl,
   TemporaryPasswordDialog,
   useErrorText,
   useFeedback,
@@ -15,8 +14,8 @@ import { useNavigate } from 'react-router';
 import { useCreateTenant } from '../hooks/queries';
 import { useI18n } from '../i18n/I18nProvider';
 import { APP_URL } from '../lib/config';
-import { PLANS, type AccessRequest, type Plan, type TenantModule } from '../lib/types';
-import { ModuleSwitches } from './ModuleSwitches';
+import type { AccessRequest, Plan, TenantModule } from '../lib/types';
+import { PlanBuilder } from './PlanBuilder';
 
 /** Plan names as the landing writes them ("Plan de interés: anual · Cobranza + Ventas · …"). */
 const PLAN_NAMES: Record<string, Plan> = {
@@ -116,30 +115,25 @@ function NewTenantForm({
             <IndustrySelect id={id} defaultValue={request?.industry ?? ''} onChange={setIndustry} />
           )}
         </Field>
-        <div>
-          <p className="label">{t('newTenant.plan')}</p>
-          <SegmentedControl
-            label={t('newTenant.plan')}
-            value={plan}
-            onChange={setPlan}
-            options={PLANS.map((value) => ({ value, label: t(`plans.${value}`) }))}
-          />
-        </div>
-        <div>
-          <p className="label">{t('newTenant.modules')}</p>
-          <p className="mb-2 text-xs text-muted">{t('newTenant.modulesHint')}</p>
-          <ModuleSwitches
-            value={modules}
-            requested={request?.modules ?? []}
-            onToggle={(module) =>
-              setModules((current) =>
-                current.includes(module)
-                  ? current.filter((item) => item !== module)
-                  : [...current, module],
-              )
-            }
-          />
-        </div>
+      </fieldset>
+
+      <fieldset className="space-y-3 border-t border-line pt-4">
+        <legend className="mb-1 text-xs font-semibold tracking-wide text-subtle uppercase">
+          {t('newTenant.plan')}
+        </legend>
+        <PlanBuilder
+          plan={plan}
+          modules={modules}
+          requested={request?.modules ?? []}
+          onPlanChange={setPlan}
+          onToggleModule={(module) =>
+            setModules((current) =>
+              current.includes(module)
+                ? current.filter((item) => item !== module)
+                : [...current, module],
+            )
+          }
+        />
       </fieldset>
 
       <fieldset className="space-y-3 border-t border-line pt-4">

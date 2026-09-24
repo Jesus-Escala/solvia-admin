@@ -51,8 +51,38 @@ export const en: Messages = {
       description:
         'Purchases from suppliers, stock that updates itself, adjustments and low-stock alerts.',
     },
-    price: '+{amount} a month',
     requested: 'Asked for it',
+  },
+  builder: {
+    billing: 'Billing',
+    annualHint: 'Pays the year upfront: 12 months for the price of 10.',
+    modulesLabel: 'Modules',
+    always: 'Always included',
+    perMonth: '{amount}/mo',
+    summary: '{count|Plan with # module|Plan with # modules}',
+    month: '/mo',
+    free: 'Free',
+    discount: '{percent} module discount',
+    yearly: '{amount} a year',
+    automatic: 'automatic messages a month',
+    users: 'users',
+    customers: 'customers',
+    unlimited: 'Unlimited',
+    manual: 'Unlimited manual WhatsApp in every plan',
+    modules: {
+      collections: {
+        name: 'Collections',
+        description: 'Credit, WhatsApp reminders, payments, dashboard and reports.',
+      },
+      sales: {
+        name: 'Sales',
+        description: 'Cash or credit sales with barcode scanning and sales reports.',
+      },
+      inventory: {
+        name: 'Inventory',
+        description: 'Stock up to date, purchases, suppliers and low-stock alerts.',
+      },
+    },
   },
   usage: {
     pays: 'Pays {amount} a month',

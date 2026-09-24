@@ -17,6 +17,7 @@ import type {
   TenantStatus,
   TenantUsage,
 } from '../lib/types';
+import type { PricingCatalog } from '../lib/pricing';
 
 export const queryKeys = {
   me: ['admin', 'me'] as const,
@@ -105,6 +106,15 @@ export function useCreateTenant() {
     mutationFn: (input: NewTenantInput) =>
       api.post<{ tenant: TenantDetail; temporaryPassword: string }>('/admin/tenants', input),
     onSuccess: () => invalidate(),
+  });
+}
+
+/** Module prices, discounts and allowances (rarely changes). */
+export function usePricing() {
+  return useQuery({
+    queryKey: ['admin', 'pricing'] as const,
+    queryFn: () => api.get<PricingCatalog>('/admin/pricing'),
+    staleTime: 60 * 60 * 1000,
   });
 }
 

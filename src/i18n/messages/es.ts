@@ -54,8 +54,39 @@ export const es = {
       description:
         'Compras a proveedores, stock que se actualiza solo, ajustes y alertas de lo que se acaba.',
     },
-    price: '+{amount} al mes',
     requested: 'Lo pidió',
+  },
+  builder: {
+    billing: 'Forma de pago',
+    annualHint: 'Paga el año por adelantado: 12 meses al precio de 10.',
+    modulesLabel: 'Módulos',
+    always: 'Siempre incluido',
+    perMonth: '{amount}/mes',
+    summary: '{count|Plan con # módulo|Plan con # módulos}',
+    month: '/mes',
+    free: 'Gratis',
+    discount: '{percent} de descuento por módulos',
+    yearly: '{amount} al año',
+    automatic: 'mensajes automáticos al mes',
+    users: 'usuarios',
+    customers: 'clientes',
+    unlimited: 'Ilimitados',
+    manual: 'WhatsApp manual ilimitado en todos los planes',
+    modules: {
+      collections: {
+        name: 'Cobranza',
+        description: 'Fiados, recordatorios por WhatsApp, pagos, dashboard y reportes.',
+      },
+      sales: {
+        name: 'Ventas',
+        description:
+          'Ventas al contado o fiadas con escáner de código de barras y reportes de ventas.',
+      },
+      inventory: {
+        name: 'Inventario',
+        description: 'Stock al día, compras, proveedores y alertas de lo que se acaba.',
+      },
+    },
   },
   usage: {
     pays: 'Paga {amount} al mes',
