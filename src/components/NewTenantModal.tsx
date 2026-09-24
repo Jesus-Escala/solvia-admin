@@ -18,12 +18,23 @@ import { APP_URL } from '../lib/config';
 import { PLANS, type AccessRequest, type Plan, type TenantModule } from '../lib/types';
 import { ModuleSwitches } from './ModuleSwitches';
 
-/** Plan mentioned in a landing request message ("Plan de interés: Starter"), if any. */
+/** Plan names as the landing writes them ("Plan de interés: Negocio · pago anual · …"). */
+const PLAN_NAMES: Record<string, Plan> = {
+  free: 'free',
+  gratis: 'free',
+  starter: 'starter',
+  básico: 'starter',
+  basico: 'starter',
+  pro: 'pro',
+  negocio: 'pro',
+};
+
+/** Plan mentioned in a landing request message ("Plan de interés: Básico"), if any. */
 function planFromMessage(message: string | null): Plan {
   const match = message
-    ?.match(/(?:plan de inter[eé]s|plan of interest)\s*:\s*(free|starter|pro)\b/i)?.[1]
+    ?.match(/(?:plan de inter[eé]s|plan of interest)\s*:\s*([a-záéíóú]+)/i)?.[1]
     ?.toLowerCase();
-  return (PLANS as string[]).includes(match ?? '') ? (match as Plan) : 'free';
+  return PLAN_NAMES[match ?? ''] ?? 'free';
 }
 
 function NewTenantForm({

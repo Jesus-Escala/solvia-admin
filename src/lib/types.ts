@@ -14,8 +14,6 @@ export const MODULES: TenantModule[] = ['sales', 'inventory'];
  * (solvia-landing `sections/plans.ts`).
  */
 export const MODULE_PRICES: Record<TenantModule, number> = { sales: 29, inventory: 29 };
-/** Both modules together. */
-export const MODULES_BUNDLE_PRICE = 49;
 export const TENANT_STATUSES: TenantStatus[] = ['active', 'suspended'];
 
 export interface PlatformAdmin {
