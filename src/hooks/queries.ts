@@ -50,8 +50,9 @@ export interface TenantListParams {
   status?: TenantStatus | '';
   page: number;
   pageSize: number;
-  sortBy: TenantSortBy;
-  sortDir: SortDir;
+  /** Omitted: the API's default order (newest first). */
+  sortBy?: TenantSortBy;
+  sortDir?: SortDir;
 }
 
 export function useTenants(params: TenantListParams) {

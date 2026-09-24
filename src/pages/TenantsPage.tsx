@@ -34,8 +34,9 @@ const DEFAULTS = {
   status: '',
   page: '1',
   pageSize: '20',
-  sortBy: 'createdAt',
-  sortDir: 'desc',
+  // Empty = the API's default order, shown as "not sorted" in the headers.
+  sortBy: '',
+  sortDir: '',
 };
 
 export function TenantsPage() {
@@ -51,8 +52,8 @@ export function TenantsPage() {
     status: state.status as TenantStatus | '',
     page: Number(state.page) || 1,
     pageSize: Number(state.pageSize) || 20,
-    sortBy: state.sortBy as TenantSortBy,
-    sortDir: state.sortDir as SortDir,
+    sortBy: (state.sortBy || undefined) as TenantSortBy | undefined,
+    sortDir: (state.sortDir || undefined) as SortDir | undefined,
   });
   const filtered = Boolean(state.search || state.plan || state.status);
 
@@ -187,12 +188,12 @@ export function TenantsPage() {
         fetching={query.isFetching && !query.isLoading}
         error={query.error ? <Alert tone="danger">{errors.message(query.error)}</Alert> : undefined}
         onRowClick={(row) => navigate(`/tenants/${row.id}`)}
-        sort={{ id: state.sortBy, dir: state.sortDir as SortDir }}
+        sort={state.sortBy ? { id: state.sortBy, dir: state.sortDir as SortDir } : undefined}
         onSortChange={(sort) =>
           // No sort (third click): back to the page's default order.
           update({
-            sortBy: sort?.id ?? DEFAULTS.sortBy,
-            sortDir: sort?.dir ?? DEFAULTS.sortDir,
+            sortBy: sort?.id ?? '',
+            sortDir: sort?.dir ?? '',
             page: '1',
           })
         }

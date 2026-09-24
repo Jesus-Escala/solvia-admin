@@ -42,8 +42,9 @@ const DEFAULTS = {
   search: '',
   page: '1',
   pageSize: '20',
-  sortBy: 'createdAt',
-  sortDir: 'desc',
+  // Empty = the API's default order, shown as "not sorted" in the headers.
+  sortBy: '',
+  sortDir: '',
 };
 
 /** Table column id → API sort field. */
@@ -81,8 +82,8 @@ export function AccessRequestsPage() {
     search: state.search || undefined,
     page: Number(state.page) || 1,
     pageSize: Number(state.pageSize) || 20,
-    sortBy: SORT_FIELDS[state.sortBy as keyof typeof SORT_FIELDS] ?? 'createdAt',
-    sortDir: state.sortDir as SortDir,
+    sortBy: state.sortBy ? SORT_FIELDS[state.sortBy as keyof typeof SORT_FIELDS] : undefined,
+    sortDir: (state.sortDir || undefined) as SortDir | undefined,
   });
 
   const setStatus = async (row: AccessRequest, status: 'pending' | 'dismissed') => {
@@ -188,12 +189,12 @@ export function AccessRequestsPage() {
           </>
         }
         columns={columns}
-        sort={{ id: state.sortBy, dir: state.sortDir as SortDir }}
+        sort={state.sortBy ? { id: state.sortBy, dir: state.sortDir as SortDir } : undefined}
         onSortChange={(sort) =>
           // No sort (third click): back to the page's default order.
           update({
-            sortBy: sort?.id ?? DEFAULTS.sortBy,
-            sortDir: sort?.dir ?? DEFAULTS.sortDir,
+            sortBy: sort?.id ?? '',
+            sortDir: sort?.dir ?? '',
             page: '1',
           })
         }
