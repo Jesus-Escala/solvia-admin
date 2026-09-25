@@ -53,7 +53,7 @@ export function TenantsPage() {
     search: state.search || undefined,
     plan: state.plan as Plan | '',
     status: state.status as TenantStatus | '',
-    module: state.module as TenantModule | 'none' | '',
+    module: state.module as TenantModule | 'single' | '',
     page: Number(state.page) || 1,
     pageSize: Number(state.pageSize) || 20,
     sortBy: (state.sortBy || undefined) as TenantSortBy | undefined,
@@ -198,7 +198,7 @@ export function TenantsPage() {
                   value: module,
                   label: t(`modules.${module}.title`),
                 })),
-                { value: 'none', label: t('tenants.noModules') },
+                { value: 'single', label: t('tenants.singleModule') },
               ]}
             />
           </>

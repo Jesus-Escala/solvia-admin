@@ -1,4 +1,4 @@
-import { Check, Lock, MessageCircle, UserRound, Users } from 'lucide-react';
+import { Check, MessageCircle, UserRound, Users } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cx, SegmentedControl, Skeleton, WhatsAppIcon } from '@/ui';
 import { usePricing } from '../hooks/queries';
@@ -7,8 +7,8 @@ import { quotePlan } from '../lib/pricing';
 import { MODULES, PLANS, type Plan, type TenantModule } from '../lib/types';
 
 /**
- * The plan of a business, built like on the landing: free, monthly or yearly billing, Cobranza
- * always in plus the optional modules, and a live summary of what it pays (with the module
+ * The plan of a business, built like on the landing: free, monthly or yearly billing, the modules
+ * it pays for (any of Cobranza, Ventas, Inventario; at least one), and a live summary of what it pays (with the module
  * discount) and what it includes. Used when creating a business and in its detail page.
  */
 export function PlanBuilder({
@@ -36,7 +36,7 @@ export function PlanBuilder({
   const quote = quotePlan(catalog, plan, modules);
 
   const row = (
-    key: 'collections' | TenantModule,
+    key: TenantModule,
     selected: boolean,
     locked: boolean,
     onClick: (() => void) | null,
@@ -63,13 +63,7 @@ export function PlanBuilder({
             <span className="text-xs font-medium text-primary-ink">
               {t('builder.perMonth', { amount: money(catalog.modules[key]) })}
             </span>
-            {locked && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-success-soft px-2 py-0.5 text-[11px] font-semibold text-success-ink">
-                <Lock className="h-3 w-3" />
-                {t('builder.always')}
-              </span>
-            )}
-            {key !== 'collections' && requested.includes(key) && (
+            {requested.includes(key) && (
               <span className="rounded-full bg-warning-soft px-2 py-0.5 text-[11px] font-semibold text-warning-ink">
                 {t('modules.requested')}
               </span>
@@ -115,11 +109,14 @@ export function PlanBuilder({
 
       <div>
         <p className="label">{t('builder.modulesLabel')}</p>
+        <p className="mb-2 text-xs text-muted">{t('builder.modulesHint')}</p>
         <ul className="space-y-2">
-          {row('collections', true, true, null)}
-          {MODULES.map((module) =>
-            row(module, modules.includes(module), false, () => onToggleModule(module)),
-          )}
+          {MODULES.map((module) => {
+            const selected = modules.includes(module);
+            // At least one module: the last one chosen cannot be removed.
+            const last = selected && modules.length === 1;
+            return row(module, selected, last, last ? null : () => onToggleModule(module));
+          })}
         </ul>
       </div>
 

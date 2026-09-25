@@ -42,6 +42,10 @@ export const en: Messages = {
     pro: 'Yearly',
   },
   modules: {
+    collections: {
+      title: 'Collections',
+      description: 'Credit, WhatsApp reminders, payments, dashboard and payment reports.',
+    },
     sales: {
       title: 'Sales',
       description: 'Cash or credit sales with barcode scanning, receipts and sales reports.',
@@ -57,7 +61,8 @@ export const en: Messages = {
     billing: 'Billing',
     annualHint: 'Pays the year upfront: 12 months for the price of 10.',
     modulesLabel: 'Modules',
-    always: 'Always included',
+    modulesHint:
+      'Choose one or more. It can have only Sales or only Inventory, without Collections.',
     perMonth: '{amount}/mo',
     summary: '{count|Plan with # module|Plan with # modules}',
     month: '/mo',
@@ -115,10 +120,10 @@ export const en: Messages = {
   overview: {
     modules: {
       title: 'Add-on modules',
-      subtitle: 'Active businesses paying for Sales or Inventory on top of their plan.',
+      subtitle: 'Active businesses using each module.',
       businesses: 'businesses',
-      none: 'No modules',
-      noneHint: 'Active businesses to offer them to',
+      none: 'With a single module',
+      noneHint: 'Active businesses to offer more modules to',
       revenue: 'Estimated monthly revenue',
       revenueHint: 'Active paying businesses, at reference prices',
       offer: '{count|Offer to # business|Offer to # businesses}',
@@ -165,7 +170,7 @@ export const en: Messages = {
   },
   tenants: {
     filterModule: 'Filter by module',
-    noModules: 'No modules',
+    singleModule: 'With 1 module',
     title: 'Businesses',
     subtitle: 'Every business registered in Solvia.',
     search: 'Search by business or email…',

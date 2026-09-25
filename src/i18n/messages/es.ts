@@ -44,6 +44,10 @@ export const es = {
     pro: 'Pago anual',
   },
   modules: {
+    collections: {
+      title: 'Cobranza',
+      description: 'Fiados, recordatorios por WhatsApp, pagos, dashboard y reportes de cobros.',
+    },
     sales: {
       title: 'Ventas',
       description:
@@ -60,7 +64,7 @@ export const es = {
     billing: 'Forma de pago',
     annualHint: 'Paga el año por adelantado: 12 meses al precio de 10.',
     modulesLabel: 'Módulos',
-    always: 'Siempre incluido',
+    modulesHint: 'Elige uno o más. Puede tener solo Ventas o solo Inventario, sin Cobranza.',
     perMonth: '{amount}/mes',
     summary: '{count|Plan con # módulo|Plan con # módulos}',
     month: '/mes',
@@ -119,10 +123,10 @@ export const es = {
   overview: {
     modules: {
       title: 'Módulos adicionales',
-      subtitle: 'Negocios activos que pagan Ventas o Inventario además de su plan.',
+      subtitle: 'Negocios activos que usan cada módulo.',
       businesses: 'negocios',
-      none: 'Sin módulos',
-      noneHint: 'Negocios activos a los que ofrecerlos',
+      none: 'Con un solo módulo',
+      noneHint: 'Negocios activos a los que ofrecer más módulos',
       revenue: 'Ingreso mensual estimado',
       revenueHint: 'Negocios activos de pago, a precio referencial',
       offer: '{count|Ofrecer a # negocio|Ofrecer a # negocios}',
@@ -169,7 +173,7 @@ export const es = {
   },
   tenants: {
     filterModule: 'Filtrar por módulo',
-    noModules: 'Sin módulos',
+    singleModule: 'Con 1 módulo',
     title: 'Empresas',
     subtitle: 'Los negocios que usan Solvia. Toca uno para ver sus datos, usuarios y plan.',
     search: 'Buscar por empresa o correo…',

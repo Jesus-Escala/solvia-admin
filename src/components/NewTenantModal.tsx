@@ -58,7 +58,9 @@ function NewTenantForm({
   const [name, setName] = useState(request?.businessName ?? '');
   const [industry, setIndustry] = useState(request?.industry ?? '');
   const [plan, setPlan] = useState<Plan>(() => planFromMessage(request?.message ?? null));
-  const [modules, setModules] = useState<TenantModule[]>(request?.modules ?? []);
+  const [modules, setModules] = useState<TenantModule[]>(
+    request?.modules.length ? request.modules : ['collections'],
+  );
   const [adminName, setAdminName] = useState(request?.contactName ?? '');
   const [adminEmail, setAdminEmail] = useState(request?.email ?? '');
 

@@ -3,12 +3,12 @@ import type { TeamUser } from '@/ui';
 
 export type Plan = 'free' | 'starter' | 'pro';
 export type TenantStatus = 'active' | 'suspended';
-/** Optional modules of a business (the product catalog comes with any of them). */
-export type TenantModule = 'sales' | 'inventory';
+/** Modules a business pays for (at least one): Cobranza, Ventas, Inventario. */
+export type TenantModule = 'collections' | 'sales' | 'inventory';
 export type SortDir = 'asc' | 'desc';
 
 export const PLANS: Plan[] = ['free', 'starter', 'pro'];
-export const MODULES: TenantModule[] = ['sales', 'inventory'];
+export const MODULES: TenantModule[] = ['collections', 'sales', 'inventory'];
 export const TENANT_STATUSES: TenantStatus[] = ['active', 'suspended'];
 
 export interface PlatformAdmin {
@@ -42,7 +42,7 @@ export interface PlatformOverview {
     pendingAccessRequests: number;
   };
   /** Active businesses with each module, and without any (to offer them). */
-  modules: { sales: number; inventory: number; none: number };
+  modules: { collections: number; sales: number; inventory: number; single: number };
   /** Monthly revenue at reference prices of the active paying businesses. */
   estimatedMonthlyRevenue: number;
   /** Always the three plans, 0 when none. */

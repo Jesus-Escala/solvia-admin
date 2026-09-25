@@ -146,8 +146,8 @@ function ChartSkeleton() {
 const DEFAULT_PERIOD = { from: '', to: '', g: '' };
 
 /**
- * Optional modules: how many active businesses pay for each one, the extra monthly revenue at
- * reference prices, and how many have none yet (a link to offer them).
+ * Modules: how many active businesses pay for each one, the monthly revenue at reference prices,
+ * and how many have a single module (a link to offer them more).
  */
 function ModulesCard({ overview, loading }: { overview: PlatformOverview; loading: boolean }) {
   const { t, fmt } = useI18n();
@@ -158,18 +158,18 @@ function ModulesCard({ overview, loading }: { overview: PlatformOverview; loadin
       title={t('overview.modules.title')}
       subtitle={t('overview.modules.subtitle')}
       actions={
-        modules.none > 0 && (
+        modules.single > 0 && (
           <Link
-            to="/tenants?module=none&status=active"
+            to="/tenants?module=single&status=active"
             className="inline-flex items-center gap-1 text-sm font-semibold text-primary-ink hover:underline"
           >
             <Sparkles className="h-4 w-4" />
-            {t('overview.modules.offer', { count: modules.none })}
+            {t('overview.modules.offer', { count: modules.single })}
           </Link>
         )
       }
     >
-      <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
         {MODULES.map((module) => (
           <Stat
             key={module}
@@ -180,7 +180,7 @@ function ModulesCard({ overview, loading }: { overview: PlatformOverview; loadin
         ))}
         <Stat
           label={t('overview.modules.none')}
-          value={fmt.number(modules.none)}
+          value={fmt.number(modules.single)}
           hint={t('overview.modules.noneHint')}
         />
         <Stat
