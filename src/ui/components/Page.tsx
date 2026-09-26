@@ -56,7 +56,8 @@ export function PageHeader({
         )}
         <h1
           data-tour="page-title"
-          className="text-[1.5rem] leading-tight font-semibold text-ink sm:text-[2.1rem]">
+          className="text-[1.5rem] leading-tight font-semibold text-ink sm:text-[2.1rem]"
+        >
           {title}
         </h1>
         {description && (
