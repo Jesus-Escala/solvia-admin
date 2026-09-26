@@ -14,6 +14,7 @@ import {
   useChartColors,
   useErrorText,
   useUrlState,
+  smallButtonClass,
 } from '@/ui';
 import { Building2, HandCoins, Inbox, Sparkles, UserRound, Users, Wallet } from 'lucide-react';
 import { Link } from 'react-router';
@@ -159,10 +160,7 @@ function ModulesCard({ overview, loading }: { overview: PlatformOverview; loadin
       subtitle={t('overview.modules.subtitle')}
       actions={
         modules.single > 0 && (
-          <Link
-            to="/tenants?module=single&status=active"
-            className="inline-flex items-center gap-1 text-sm font-semibold text-primary-ink hover:underline"
-          >
+          <Link to="/tenants?module=single&status=active" className={smallButtonClass('sm')}>
             <Sparkles className="h-4 w-4" />
             {t('overview.modules.offer', { count: modules.single })}
           </Link>
