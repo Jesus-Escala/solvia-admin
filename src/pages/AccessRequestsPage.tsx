@@ -175,6 +175,7 @@ export function AccessRequestsPage() {
       <DataTable
         columnsStorageKey="admin-requests"
         caption={t('requests.title')}
+        filtersActive={[state.status !== ''].filter(Boolean).length}
         toolbar={
           <>
             <SearchInput

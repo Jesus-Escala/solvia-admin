@@ -160,6 +160,9 @@ export function TenantsPage() {
       <DataTable
         columnsStorageKey="admin-tenants"
         caption={t('tenants.title')}
+        filtersActive={
+          [state.plan !== '', state.status !== '', state.module !== ''].filter(Boolean).length
+        }
         toolbar={
           <>
             <SearchInput
