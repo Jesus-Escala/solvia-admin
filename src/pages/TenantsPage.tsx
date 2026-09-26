@@ -73,7 +73,8 @@ export function TenantsPage() {
         <div className="flex min-w-0 items-center gap-3">
           <Avatar name={row.name} size="sm" />
           <div className="min-w-0">
-            <p className="truncate font-medium">{row.name}</p>
+            {/* Phones: long names on up to two lines (the card has the room). */}
+            <p className="font-medium max-md:line-clamp-2 md:truncate">{row.name}</p>
             <p className="truncate text-xs text-subtle">{row.industry ?? t('tenant.noIndustry')}</p>
           </div>
         </div>
@@ -85,7 +86,7 @@ export function TenantsPage() {
       header: t('tenants.columns.modules'),
       minWidth: 320,
       maxWidth: 420,
-      mobile: 'field',
+      mobile: 'wide',
       cell: (row) => <ModuleBadges modules={row.modules} oneLine />,
     },
     {
@@ -167,13 +168,15 @@ export function TenantsPage() {
         filtersActive={
           [state.plan !== '', state.status !== '', state.module !== ''].filter(Boolean).length
         }
+        search={
+          <SearchInput
+            value={state.search}
+            onChange={(search) => update({ search })}
+            placeholder={t('tenants.search')}
+          />
+        }
         toolbar={
           <>
-            <SearchInput
-              value={state.search}
-              onChange={(search) => update({ search })}
-              placeholder={t('tenants.search')}
-            />
             <SegmentedControl
               label={t('tenants.filterPlan')}
               value={state.plan}

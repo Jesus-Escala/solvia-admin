@@ -32,7 +32,14 @@ export function ModuleBadges({
   const shown = MODULES.filter((module) => modules.includes(module));
   if (shown.length === 0) return null;
   return (
-    <span className={oneLine ? 'flex flex-nowrap gap-1 whitespace-nowrap' : 'flex flex-wrap gap-1'}>
+    <span
+      className={
+        // Tables: one line on computers; phone cards give them the whole width and let them wrap.
+        oneLine
+          ? 'flex flex-wrap gap-1 md:flex-nowrap md:whitespace-nowrap'
+          : 'flex flex-wrap gap-1'
+      }
+    >
       {shown.map((module) => (
         <Badge key={module} tone="primary">
           {t(`modules.${module}.title`)}
