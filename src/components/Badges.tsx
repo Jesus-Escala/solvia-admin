@@ -20,12 +20,19 @@ export function TenantStatusBadge({ status }: { status: TenantStatus }) {
 }
 
 /** The optional modules a business has (or asked for), in a fixed order; nothing when none. */
-export function ModuleBadges({ modules }: { modules: TenantModule[] }) {
+export function ModuleBadges({
+  modules,
+  oneLine = false,
+}: {
+  modules: TenantModule[];
+  /** Table cells: all the badges on one line. */
+  oneLine?: boolean;
+}) {
   const { t } = useI18n();
   const shown = MODULES.filter((module) => modules.includes(module));
   if (shown.length === 0) return null;
   return (
-    <span className="flex flex-wrap gap-1">
+    <span className={oneLine ? 'flex flex-nowrap gap-1 whitespace-nowrap' : 'flex flex-wrap gap-1'}>
       {shown.map((module) => (
         <Badge key={module} tone="primary">
           {t(`modules.${module}.title`)}

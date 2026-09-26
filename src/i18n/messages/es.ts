@@ -45,18 +45,19 @@ export const es = {
   },
   modules: {
     collections: {
-      title: 'Cobranza',
-      description: 'Fiados, recordatorios por WhatsApp, pagos, dashboard y reportes de cobros.',
+      title: 'Cuentas por cobrar',
+      description:
+        'Cobranza: fiados, pagos (con varios métodos), recordatorios por WhatsApp y reportes de cobros.',
     },
     sales: {
-      title: 'Ventas',
+      title: 'Comercial',
       description:
-        'Ventas al contado o fiadas con escáner de código de barras, boletas y reportes de ventas.',
+        'Ventas: punto de venta con escáner QR, al contado o fiado, pagos con varios métodos, tickets y reportes.',
     },
     inventory: {
-      title: 'Inventario',
+      title: 'Logística',
       description:
-        'Compras a proveedores, stock que se actualiza solo, ajustes y alertas de lo que se acaba.',
+        'Compras a proveedores, stock que se actualiza solo, kardex, ajustes y alertas de lo que se acaba.',
     },
     requested: 'Lo pidió',
   },
@@ -64,7 +65,8 @@ export const es = {
     billing: 'Forma de pago',
     annualHint: 'Paga el año por adelantado: 12 meses al precio de 10.',
     modulesLabel: 'Módulos',
-    modulesHint: 'Elige uno o más. Puede tener solo Ventas o solo Inventario, sin Cobranza.',
+    modulesHint:
+      'Elige uno o más: Comercial, Cuentas por cobrar o Logística. Clientes, productos y proveedores vienen con los módulos que los usan; Ubicaciones, con todos.',
     perMonth: '{amount}/mes',
     summary: '{count|Plan con # módulo|Plan con # módulos}',
     month: '/mes',
@@ -78,17 +80,16 @@ export const es = {
     manual: 'Los envíos desde el celular del negocio son gratis (no tienen costo)',
     modules: {
       collections: {
-        name: 'Cobranza',
-        description: 'Fiados, recordatorios por WhatsApp, pagos, dashboard y reportes.',
+        name: 'Cuentas por cobrar',
+        description: 'Cobranza, recordatorios por WhatsApp, pagos y reportes de cobros.',
       },
       sales: {
-        name: 'Ventas',
-        description:
-          'Ventas al contado o fiadas con escáner de código de barras y reportes de ventas.',
+        name: 'Comercial',
+        description: 'Ventas con punto de venta, escáner QR, tickets y reportes de ventas.',
       },
       inventory: {
-        name: 'Inventario',
-        description: 'Stock al día, compras, proveedores y alertas de lo que se acaba.',
+        name: 'Logística',
+        description: 'Compras, proveedores, stock al día y alertas de lo que se acaba.',
       },
     },
   },
@@ -181,6 +182,7 @@ export const es = {
     filterStatus: 'Filtrar por estado',
     columns: {
       name: 'Empresa',
+      modules: 'Módulos',
       plan: 'Plan',
       status: 'Estado',
       users: 'Usuarios',

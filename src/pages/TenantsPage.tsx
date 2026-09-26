@@ -75,14 +75,18 @@ export function TenantsPage() {
           <div className="min-w-0">
             <p className="truncate font-medium">{row.name}</p>
             <p className="truncate text-xs text-subtle">{row.industry ?? t('tenant.noIndustry')}</p>
-            {row.modules.length > 0 && (
-              <div className="mt-1">
-                <ModuleBadges modules={row.modules} />
-              </div>
-            )}
           </div>
         </div>
       ),
+    },
+    {
+      // Its own column: up to three badges on one line (under the name they wrapped).
+      id: 'modules',
+      header: t('tenants.columns.modules'),
+      minWidth: 320,
+      maxWidth: 420,
+      mobile: 'field',
+      cell: (row) => <ModuleBadges modules={row.modules} oneLine />,
     },
     {
       id: 'plan',

@@ -43,17 +43,19 @@ export const en: Messages = {
   },
   modules: {
     collections: {
-      title: 'Collections',
-      description: 'Credit, WhatsApp reminders, payments, dashboard and payment reports.',
+      title: 'Receivables',
+      description:
+        'Collections: credit, payments (several methods), WhatsApp reminders and payment reports.',
     },
     sales: {
       title: 'Sales',
-      description: 'Cash or credit sales with barcode scanning, receipts and sales reports.',
+      description:
+        'Point of sale with QR scanning, cash or credit, several payment methods, tickets and reports.',
     },
     inventory: {
-      title: 'Inventory',
+      title: 'Logistics',
       description:
-        'Purchases from suppliers, stock that updates itself, adjustments and low-stock alerts.',
+        'Purchases from suppliers, stock that updates itself, kardex, adjustments and low-stock alerts.',
     },
     requested: 'Asked for it',
   },
@@ -62,7 +64,7 @@ export const en: Messages = {
     annualHint: 'Pays the year upfront: 12 months for the price of 10.',
     modulesLabel: 'Modules',
     modulesHint:
-      'Choose one or more. It can have only Sales or only Inventory, without Collections.',
+      'Choose one or more: Sales, Receivables or Logistics. Customers, products and suppliers come with the modules that use them; Locations with all.',
     perMonth: '{amount}/mo',
     summary: '{count|Plan with # module|Plan with # modules}',
     month: '/mo',
@@ -76,16 +78,16 @@ export const en: Messages = {
     manual: 'Sending from the business phone is free (no cost)',
     modules: {
       collections: {
-        name: 'Collections',
-        description: 'Credit, WhatsApp reminders, payments, dashboard and reports.',
+        name: 'Receivables',
+        description: 'Collections, WhatsApp reminders, payments and payment reports.',
       },
       sales: {
         name: 'Sales',
-        description: 'Cash or credit sales with barcode scanning and sales reports.',
+        description: 'Sales with a point of sale, QR scanning, tickets and sales reports.',
       },
       inventory: {
-        name: 'Inventory',
-        description: 'Stock up to date, purchases, suppliers and low-stock alerts.',
+        name: 'Logistics',
+        description: 'Purchases, suppliers, stock up to date and low-stock alerts.',
       },
     },
   },
@@ -178,6 +180,7 @@ export const en: Messages = {
     filterStatus: 'Filter by status',
     columns: {
       name: 'Business',
+      modules: 'Modules',
       plan: 'Plan',
       status: 'Status',
       users: 'Users',

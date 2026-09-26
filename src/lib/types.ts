@@ -3,7 +3,7 @@ import type { TeamUser } from '@/ui';
 
 export type Plan = 'free' | 'starter' | 'pro';
 export type TenantStatus = 'active' | 'suspended';
-/** Modules a business pays for (at least one): Cobranza, Ventas, Inventario. */
+/** Modules a business pays for (at least one): Comercial (sales), Cuentas por cobrar (collections), Logística (inventory). */
 export type TenantModule = 'collections' | 'sales' | 'inventory';
 export type SortDir = 'asc' | 'desc';
 

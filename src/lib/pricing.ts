@@ -34,7 +34,7 @@ export function quotePlan(catalog: PricingCatalog, plan: Plan, modules: readonly
   const discount = catalog.discounts[count];
   const monthly = round2(list * (1 - discount));
   const annual = plan === 'pro';
-  // Automatic WhatsApp messages are Cobranza's reminders: none without it.
+  // Automatic WhatsApp messages are Cuentas por cobrar's reminders: none without it.
   const allowance = chosen.includes('collections')
     ? catalog.paid[count]
     : { ...catalog.paid[count], automaticMessages: 0 };

@@ -8,7 +8,7 @@ import { MODULES, PLANS, type Plan, type TenantModule } from '../lib/types';
 
 /**
  * The plan of a business, built like on the landing: free, monthly or yearly billing, the modules
- * it pays for (any of Cobranza, Ventas, Inventario; at least one), and a live summary of what it pays (with the module
+ * it pays for (any of Comercial, Cuentas por cobrar, Logística; at least one), and a live summary of what it pays (with the module
  * discount) and what it includes. Used when creating a business and in its detail page.
  */
 export function PlanBuilder({
